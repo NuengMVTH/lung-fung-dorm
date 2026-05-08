@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>หอพักลุงฟุ้ง — อยู่สบาย ใจดี เหมือนอยู่บ้านตา</title>
+  <title>หอพักลุงฟุ้ง — อยู่สบาย ใจดี เหมือนอยู่บ้านลุง</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap');
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -356,8 +356,8 @@
 
   <div class="features">
     <div class="features-grid">
-      <div class="feature-item" onclick="showPage('rooms')"><div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="36" height="36"><rect x="8" y="5" width="12" height="5" rx="2.5" fill="#4f8a62"/><line x1="14" y1="10" x2="14" y2="18" stroke="#4f8a62" stroke-width="3" stroke-linecap="round"/><rect x="4" y="18" width="26" height="11" rx="4" fill="#4f8a62"/><circle cx="28" cy="23.5" r="5.5" fill="#3a6644"/><circle cx="28" cy="23.5" r="3" fill="#1a3322"/><circle cx="26.5" cy="22" r="1" fill="rgba(255,255,255,.4)"/><circle cx="7" cy="25" r="1.5" fill="#22c55e"/></svg></div><div class="feature-title">ปลอดภัย</div><div class="feature-desc">กล้องวงจรปิด</div></div>
-      <div class="feature-item" onclick="showPage('rooms')"><div class="feature-icon">📶</div><div class="feature-title">Wi-Fi ฟรี</div><div class="feature-desc">ความเร็วสูง</div></div>
+      <div class="feature-item" onclick="openFeatModal('security')"><div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="36" height="36"><rect x="8" y="5" width="12" height="5" rx="2.5" fill="#4f8a62"/><line x1="14" y1="10" x2="14" y2="18" stroke="#4f8a62" stroke-width="3" stroke-linecap="round"/><rect x="4" y="18" width="26" height="11" rx="4" fill="#4f8a62"/><circle cx="28" cy="23.5" r="5.5" fill="#3a6644"/><circle cx="28" cy="23.5" r="3" fill="#1a3322"/><circle cx="26.5" cy="22" r="1" fill="rgba(255,255,255,.4)"/><circle cx="7" cy="25" r="1.5" fill="#22c55e"/></svg></div><div class="feature-title">ปลอดภัย</div><div class="feature-desc">กล้องวงจรปิด</div></div>
+      <div class="feature-item" onclick="openFeatModal('wifi')"><div class="feature-icon">📶</div><div class="feature-title">Wi-Fi</div><div class="feature-desc">ความเร็วสูง</div></div>
       <div class="feature-item" onclick="openFeatModal('laundry')"><div class="feature-icon">🧺</div><div class="feature-title">ซักรีด</div><div class="feature-desc">หยอดเหรียญ 24 ชม.</div></div>
       <div class="feature-item" onclick="openFeatModal('parking')"><div class="feature-icon">🏍️</div><div class="feature-title">ที่จอดรถ</div><div class="feature-desc">มอเตอร์ไซค์</div></div>
       <div class="feature-item" onclick="openFeatModal('clean')"><div class="feature-icon">🧹</div><div class="feature-title">สะอาด</div><div class="feature-desc">ทำความสะอาดทุกวัน</div></div>
@@ -369,7 +369,7 @@
     <div style="background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:1.5rem;border-left:4px solid var(--green);">
       <div style="font-size:1.5rem;margin-bottom:.4rem">📍</div>
       <h3 style="font-size:1rem;color:var(--green-dark);margin-bottom:.3rem">ที่ตั้ง</h3>
-      <p style="font-size:.88rem;color:var(--text-light)">ใกล้มหาวิทยาลัย ห่างเพียง 500 เมตร<br>มีรถสองแถวหน้าหอ</p>
+      <p style="font-size:.88rem;color:var(--text-light)">ใกล้มหาวิทยาลัย ห่างเพียง 500 เมตร</p>
     </div>
     <div style="background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:1.5rem;border-left:4px solid var(--brown-light);">
       <div style="font-size:1.5rem;margin-bottom:.4rem">💰</div>
@@ -660,7 +660,7 @@
 <!-- Footer -->
 <footer>
   <strong>🏡 หอพักลุงฟุ้ง</strong>
-  <p style="margin-top:.35rem;opacity:.8">อยู่สบาย ใจดี เหมือนอยู่บ้านตา</p>
+  <p style="margin-top:.35rem;opacity:.8">อยู่สบาย ใจดี เหมือนอยู่บ้านลุง</p>
   <div class="footer-links">
     <a href="#" onclick="showPage('home')">หน้าหลัก</a>
     <a href="#" onclick="showPage('available')">ห้องว่าง</a>
@@ -995,6 +995,26 @@ loadAnnouncementsFromSheets();
    FEATURE MODAL
 ════════════════════════════════ */
 const featData = {
+  security: {
+    title: '📷 กล้องวงจรปิด 24 ชั่วโมง',
+    items: [
+      { icon: '📷', bg: '#dbeafe', color: '#1e40af', label: 'กล้องวงจรปิด' },
+      { icon: '💂', bg: '#fef3c7', color: '#92400e', label: 'รปภ.' },
+      { icon: '🌙', bg: '#ede9fe', color: '#5b21b6', label: 'ทำงาน 24 ชม.' },
+    ],
+    desc: 'หอพักนี้มีกล้องวงจรปิดทำงาน 24 ชั่วโมง ปลอดภัย อุ่นใจทุกวัน',
+    price: null,
+  },
+  wifi: {
+    title: '📶 Wi-Fi ครอบคลุมทุกพื้นที่',
+    items: [
+      { icon: '📡', bg: '#dbeafe', color: '#1e40af', label: 'เราเตอร์ Wi-Fi' },
+      { icon: '🗼', bg: '#fef3c7', color: '#92400e', label: 'เสาสัญญาณ' },
+      { icon: '⚡', bg: '#d1fae5', color: '#166534', label: 'เน็ตแรง' },
+    ],
+    desc: 'ไวไฟครอบคลุมทุกพื้นที่ เน็ตแรง ไม่มีสะดุด',
+    price: null,
+  },
   laundry: {
     title: '🧺 บริการซักรีด',
     items: [
