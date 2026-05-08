@@ -687,7 +687,7 @@
    Type: fan | ac
 ══════════════════════════════════════════════════════ */
 const SHEETS_CONFIG = {
-  roomsUrl: 'https://docs.google.com/spreadsheets/d/1DD9haRLEK-fauZWy1-iNFwlCABm0U8xvPaGRdXvxFa8/gviz/tq?tqx=out:csv&sheet=%E0%B8%AB%E0%B8%AD%E0%B8%9E%E0%B8%B1%E0%B8%81%E0%B8%A5%E0%B8%B8%E0%B8%87%E0%B8%9F%E0%B8%B8%E0%B9%89%E0%B8%87',
+  roomsUrl: 'https://docs.google.com/spreadsheets/d/1DD9haRLEK-fauZWy1-iNFwlCABm0U8xvPaGRdXvxFa8/gviz/tq?tqx=out:csv&sheet=Rooms',
   announceUrl: '',
   useSheets: true,
 };
@@ -885,8 +885,18 @@ async function loadRoomsFromSheets() {
     const csv = await res.text();
     const rows = csv.trim().split('\n').slice(1);
     allRooms = rows.filter(r => r.trim()).map(row => {
-      const [no, zone, type, status, price, note] = row.split(',').map(s => s.trim().replace(/"/g,''));
-      return { no, zone, type, status, price: parseInt(price), note: note || '' };
+      const parts = row.split(',').map(s => s.trim().replace(/"/g,''));
+      const no = parts[0];
+      const typeRaw = parts[2];
+      const statusRaw = parts[3];
+      const price = parts[4];
+      const note = parts[5] || '';
+      const type = typeRaw === 'พัดลม' ? 'fan' : typeRaw === 'แอร์' ? 'ac' : typeRaw;
+      const status = statusRaw === 'ว่าง' ? 'available'
+                   : statusRaw === 'ไม่ว่าง' ? 'occupied'
+                   : statusRaw === 'จองแล้ว' ? 'reserved' : statusRaw;
+      const zone = parseInt(no) <= 7 ? 'left' : 'right';
+      return { no, zone, type, status, price: parseInt(price), note };
     });
     renderRooms(allRooms);
   } catch(e) {
