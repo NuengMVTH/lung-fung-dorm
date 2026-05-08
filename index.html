@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>หอพักลุงฟุ้ง — อยู่สบาย ใจดี เหมือนอยู่บ้านตา</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap');
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Sarabun', 'Noto Sans Thai', sans-serif; background: #faf7f0; color: #3d2b1f; font-size: 16px; line-height: 1.6; }
+
+    :root {
+      --green-dark: #3a6644; --green: #4f8a62; --green-light: #d4e9da; --green-pale: #eef6f0;
+      --beige: #faf7f0; --beige-dark: #f0e9d8;
+      --brown: #a07850; --brown-light: #c9aa82; --brown-pale: #f5ede0;
+      --text: #3d2b1f; --text-light: #6b5240; --white: #ffffff;
+      --shadow: 0 2px 12px rgba(80,60,30,.12); --radius: 12px;
+    }
+
+    /* ── Navbar ── */
+    nav { position: sticky; top: 0; z-index: 100; background: var(--white); border-bottom: 2px solid var(--green-light); box-shadow: var(--shadow); }
+    .nav-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 0 1rem; height: 60px; }
+    .nav-logo { font-size: 1.2rem; font-weight: 700; color: var(--green-dark); text-decoration: none; display: flex; align-items: center; gap: .4rem; }
+    .nav-links { display: flex; gap: .15rem; flex-wrap: wrap; }
+    .nav-links a { text-decoration: none; color: var(--text-light); padding: .3rem .6rem; border-radius: 8px; font-size: .85rem; font-weight: 500; transition: background .2s, color .2s; white-space: nowrap; }
+    .nav-links a:hover, .nav-links a.active { background: var(--green-pale); color: var(--green-dark); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: .5rem; background: none; border: none; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--green-dark); border-radius: 2px; }
+    .mobile-menu { display: none; flex-direction: column; background: var(--white); border-top: 1px solid var(--green-light); padding: .75rem 1rem 1rem; }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a { text-decoration: none; color: var(--text); padding: .6rem .5rem; border-bottom: 1px solid var(--beige-dark); font-size: .95rem; }
+    @media (max-width: 720px) { .nav-links { display: none; } .hamburger { display: flex; } }
+
+    /* ── Pages ── */
+    .page { display: none; }
+    .page.active { display: block; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 1rem; }
+
+    /* ── Buttons ── */
+    .btn { display: inline-flex; align-items: center; gap: .4rem; padding: .65rem 1.4rem; border-radius: 50px; font-size: .95rem; font-weight: 600; text-decoration: none; border: none; cursor: pointer; transition: transform .15s, box-shadow .15s; font-family: inherit; }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(0,0,0,.15); }
+    .btn-green { background: var(--green); color: var(--white); }
+    .btn-brown { background: var(--brown); color: var(--white); }
+    .btn-outline { background: transparent; color: var(--green-dark); border: 2px solid var(--green); }
+    .btn-line { background: #06C755; color: var(--white); }
+    .btn-lg { padding: .8rem 1.8rem; font-size: 1.05rem; }
+    .btn-full { width: 100%; justify-content: center; }
+    .btn-white { background: var(--white); color: var(--green-dark); }
+
+    /* ── Hero ── */
+    .hero { background: linear-gradient(135deg, #2d5a3a 0%, var(--green) 60%, #7ab890 100%); color: var(--white); padding: 4rem 1rem 3rem; text-align: center; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E"); }
+    .hero-logo-circle { width: 110px; height: 110px; border-radius: 50%; background: rgba(255,255,255,.15); border: 3px solid rgba(255,255,255,.4); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem; font-size: 4rem; backdrop-filter: blur(4px); }
+    .hero h1 { font-size: clamp(2rem, 6vw, 3rem); font-weight: 700; margin-bottom: .4rem; text-shadow: 0 2px 8px rgba(0,0,0,.2); }
+    .hero-sub { font-size: clamp(.95rem, 3vw, 1.2rem); opacity: .92; margin-bottom: .6rem; font-weight: 300; }
+    .hero-tagline { display: inline-block; background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.3); border-radius: 50px; padding: .3rem 1rem; font-size: .88rem; margin-bottom: 2rem; }
+    .hero-btns { display: flex; flex-wrap: wrap; gap: .75rem; justify-content: center; }
+    .hero-btns .btn { box-shadow: 0 3px 12px rgba(0,0,0,.2); }
+
+    /* ── Section headers ── */
+    .section-head { text-align: center; padding: 3rem 1rem 1.5rem; }
+    .section-badge { display: inline-block; background: var(--green-pale); color: var(--green-dark); border: 1px solid var(--green-light); border-radius: 50px; padding: .25rem .9rem; font-size: .82rem; font-weight: 600; margin-bottom: .75rem; }
+    .section-head h2 { font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 700; color: var(--green-dark); }
+    .section-head p { color: var(--text-light); margin-top: .5rem; font-size: .95rem; }
+    .divider { width: 60px; height: 3px; background: linear-gradient(90deg, var(--green), var(--brown-light)); border-radius: 3px; margin: .75rem auto 0; }
+
+    /* ── Features ── */
+    .features { background: var(--white); padding: 2rem 1rem; border-bottom: 2px solid var(--beige-dark); }
+    .features-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; }
+    .feature-item { text-align: center; padding: 1.2rem .75rem; border-radius: var(--radius); background: var(--green-pale); border: 1px solid var(--green-light); }
+    .feature-icon { font-size: 2rem; margin-bottom: .5rem; }
+    .feature-title { font-size: .9rem; font-weight: 600; color: var(--green-dark); }
+    .feature-desc { font-size: .8rem; color: var(--text-light); margin-top: .2rem; }
+
+    /* ══════════════════════════════
+       14-ROOM VISUAL GRID
+    ══════════════════════════════ */
+    .rooms-status-header {
+      max-width: 1100px; margin: 0 auto; padding: 0 1rem 1rem;
+      display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; justify-content: space-between;
+    }
+    .status-legend { display: flex; gap: .75rem; flex-wrap: wrap; }
+    .legend-dot { display: flex; align-items: center; gap: .4rem; font-size: .85rem; font-weight: 600; }
+    .dot { width: 12px; height: 12px; border-radius: 50%; }
+    .dot-available { background: #22c55e; }
+    .dot-occupied { background: #ef4444; }
+    .dot-reserved { background: #f59e0b; }
+
+    .floor-section { max-width: 1100px; margin: 0 auto; padding: 0 1rem 1.5rem; }
+    .floor-label { display: flex; align-items: center; gap: .5rem; font-size: 1rem; font-weight: 700; color: var(--green-dark); margin-bottom: .75rem; padding: .4rem .75rem; background: var(--green-pale); border-radius: 8px; border-left: 4px solid var(--green); }
+
+    .room-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 1rem; }
+
+    .room-card {
+      background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow);
+      overflow: hidden; border: 2px solid transparent; transition: transform .2s, box-shadow .2s, border-color .2s;
+      cursor: pointer; position: relative;
+    }
+    .room-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(80,60,30,.18); }
+    .room-card.available { border-color: #86efac; }
+    .room-card.occupied { border-color: #fca5a5; }
+    .room-card.reserved { border-color: #fcd34d; }
+
+    .room-card-img { height: 150px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .room-card-img .room-mockup { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .5rem; }
+    .room-mockup-icon { font-size: 3.5rem; }
+    .room-mockup-label { font-size: .8rem; font-weight: 600; color: #fff; background: rgba(0,0,0,.3); padding: .2rem .6rem; border-radius: 50px; }
+    .room-status-badge { position: absolute; top: .6rem; left: .6rem; padding: .2rem .65rem; border-radius: 50px; font-size: .78rem; font-weight: 700; }
+    .badge-available { background: #dcfce7; color: #15803d; }
+    .badge-occupied { background: #fee2e2; color: #b91c1c; }
+    .badge-reserved { background: #fef3c7; color: #b45309; }
+    .view-photos-btn { position: absolute; bottom: .6rem; right: .6rem; background: rgba(0,0,0,.55); color: #fff; border: none; padding: .25rem .65rem; border-radius: 50px; font-size: .78rem; cursor: pointer; font-family: inherit; transition: background .15s; }
+    .view-photos-btn:hover { background: rgba(0,0,0,.8); }
+
+    .room-card-body { padding: 1rem 1rem .9rem; }
+    .room-num { font-size: 1.3rem; font-weight: 700; color: var(--green-dark); }
+    .room-type-tag { display: inline-block; padding: .15rem .55rem; border-radius: 50px; font-size: .75rem; font-weight: 600; margin-left: .4rem; }
+    .tag-fan { background: #fff8e1; color: #d97706; border: 1px solid #fde68a; }
+    .tag-ac  { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
+    .room-price-line { font-size: 1.05rem; font-weight: 700; color: var(--brown); margin: .35rem 0 .2rem; }
+    .room-price-line small { font-size: .78rem; font-weight: 400; color: var(--text-light); }
+    .room-note { font-size: .8rem; color: var(--text-light); }
+
+    /* Google Sheets sync badge */
+    .sheets-badge { display: inline-flex; align-items: center; gap: .35rem; font-size: .75rem; color: var(--text-light); background: var(--beige-dark); border-radius: 50px; padding: .2rem .65rem; }
+
+    /* ══════════════════════════════
+       LIGHTBOX MODAL
+    ══════════════════════════════ */
+    .lightbox-overlay {
+      display: none; position: fixed; inset: 0; z-index: 1000;
+      background: rgba(0,0,0,.85); align-items: center; justify-content: center;
+    }
+    .lightbox-overlay.open { display: flex; }
+    .lightbox-box {
+      background: var(--white); border-radius: 16px; max-width: 640px; width: 90%;
+      max-height: 90vh; overflow-y: auto; padding: 1.5rem;
+      position: relative; animation: lbIn .2s ease;
+    }
+    @keyframes lbIn { from { opacity: 0; transform: scale(.94); } to { opacity: 1; transform: scale(1); } }
+    .lightbox-close { position: absolute; top: .75rem; right: .75rem; background: var(--beige-dark); border: none; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; }
+    .lightbox-title { font-size: 1.25rem; font-weight: 700; color: var(--green-dark); margin-bottom: 1rem; padding-right: 2rem; }
+    .lightbox-photos { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+    .lightbox-photo { border-radius: 8px; overflow: hidden; aspect-ratio: 4/3; }
+    .photo-mockup { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .4rem; }
+    .photo-mockup span { font-size: 2.5rem; }
+    .photo-mockup p { font-size: .75rem; font-weight: 600; color: rgba(255,255,255,.9); }
+    .lightbox-info { margin-top: 1.25rem; display: flex; flex-direction: column; gap: .5rem; }
+    .info-row { display: flex; justify-content: space-between; padding: .45rem .75rem; background: var(--beige); border-radius: 8px; font-size: .88rem; }
+    .info-row .label { color: var(--text-light); }
+    .info-row .val { font-weight: 600; }
+    .lightbox-cta { margin-top: 1rem; display: flex; gap: .75rem; flex-wrap: wrap; }
+
+    /* ══════════════════════════════
+       ANNOUNCEMENTS
+    ══════════════════════════════ */
+    .announce-grid { max-width: 900px; margin: 0 auto; padding: 0 1rem 3rem; display: flex; flex-direction: column; gap: 1rem; }
+    .announce-card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; border: 1px solid var(--beige-dark); display: flex; }
+    .announce-stripe { width: 6px; flex-shrink: 0; }
+    .stripe-water { background: #3b82f6; }
+    .stripe-electric { background: #f59e0b; }
+    .stripe-room { background: #22c55e; }
+    .stripe-news { background: #8b5cf6; }
+    .announce-body { padding: 1.25rem 1.25rem 1.25rem 1rem; flex: 1; }
+    .announce-type { font-size: .78rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; margin-bottom: .4rem; }
+    .type-water { color: #2563eb; }
+    .type-electric { color: #d97706; }
+    .type-room { color: #16a34a; }
+    .type-news { color: #7c3aed; }
+    .announce-title { font-size: 1.05rem; font-weight: 700; color: var(--text); margin-bottom: .5rem; }
+    .announce-desc { font-size: .88rem; color: var(--text-light); line-height: 1.7; }
+    .announce-meta { display: flex; gap: 1rem; margin-top: .75rem; flex-wrap: wrap; }
+    .announce-chip { display: inline-flex; align-items: center; gap: .3rem; font-size: .8rem; padding: .2rem .65rem; border-radius: 50px; font-weight: 600; }
+    .chip-due { background: #fee2e2; color: #b91c1c; }
+    .chip-amount { background: var(--green-pale); color: var(--green-dark); }
+    .chip-date { background: var(--beige-dark); color: var(--text-light); }
+
+    /* ══════════════════════════════
+       ROOM TYPE CARDS
+    ══════════════════════════════ */
+    .rooms-type-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; padding: 0 1rem 3rem; max-width: 1100px; margin: 0 auto; }
+    .rtype-card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; border: 1px solid var(--beige-dark); transition: transform .2s, box-shadow .2s; }
+    .rtype-card:hover { transform: translateY(-3px); box-shadow: 0 6px 24px rgba(80,60,30,.15); }
+    .rtype-img { height: 180px; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: .5rem; }
+    .rtype-img-fan { background: linear-gradient(160deg, #e8f5e9 0%, #c8e6c9 50%, #fff8e1 100%); }
+    .rtype-img-ac  { background: linear-gradient(160deg, #e3f2fd 0%, #bbdefb 50%, #e1f5fe 100%); }
+    .rtype-icon { font-size: 4.5rem; }
+    .rtype-label { font-size: .95rem; font-weight: 700; }
+    .rtype-body { padding: 1.25rem; }
+    .rtype-name { font-size: 1.1rem; font-weight: 700; color: var(--green-dark); margin-bottom: .25rem; }
+    .rtype-price { font-size: 1.6rem; font-weight: 700; color: var(--brown); }
+    .rtype-price small { font-size: .85rem; font-weight: 400; color: var(--text-light); }
+    .cost-rows { margin: .75rem 0; display: flex; flex-direction: column; gap: .35rem; }
+    .cost-row { display: flex; justify-content: space-between; background: var(--beige); border-radius: 8px; padding: .35rem .75rem; font-size: .88rem; }
+    .amenity-tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .75rem; }
+    .amenity-tag { background: var(--green-pale); color: var(--green-dark); border: 1px solid var(--green-light); border-radius: 50px; padding: .15rem .6rem; font-size: .78rem; }
+
+    /* ── Forms ── */
+    .form-section { max-width: 640px; margin: 0 auto; padding: 0 1rem 3rem; }
+    .form-card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.75rem; border: 1px solid var(--beige-dark); }
+    .form-group { margin-bottom: 1.1rem; }
+    label { display: block; font-size: .88rem; font-weight: 600; color: var(--text-light); margin-bottom: .35rem; }
+    label span { color: #e53935; }
+    input, select, textarea { width: 100%; padding: .65rem .9rem; border: 1.5px solid #d9cfc3; border-radius: 8px; font-family: inherit; font-size: .95rem; color: var(--text); background: var(--beige); transition: border .2s, box-shadow .2s; }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--green); box-shadow: 0 0 0 3px rgba(79,138,98,.15); }
+    textarea { resize: vertical; min-height: 100px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-notice { background: var(--green-pale); border: 1px solid var(--green-light); border-radius: 8px; padding: .75rem 1rem; font-size: .85rem; color: var(--green-dark); margin-bottom: 1.25rem; }
+    .form-notice strong { display: block; margin-bottom: .2rem; }
+    @media (max-width: 440px) { .form-row { grid-template-columns: 1fr; } }
+    .file-input-wrap { border: 2px dashed #c9c0b0; border-radius: 8px; padding: 1.5rem; text-align: center; background: var(--beige); cursor: pointer; }
+    .file-input-wrap input[type=file] { display: none; }
+    .file-icon { font-size: 2rem; display: block; margin-bottom: .4rem; }
+    .file-label { font-size: .88rem; color: var(--text-light); }
+    .file-label strong { color: var(--green-dark); }
+
+    /* ── Contact ── */
+    .contact-grid { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; padding: 0 1rem 2rem; }
+    .contact-card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.5rem; border: 1px solid var(--beige-dark); text-align: center; }
+    .contact-icon { font-size: 2.5rem; margin-bottom: .75rem; }
+    .contact-card h3 { font-size: 1rem; font-weight: 700; color: var(--green-dark); margin-bottom: .4rem; }
+    .contact-card p { font-size: .88rem; color: var(--text-light); margin-bottom: 1rem; }
+
+    /* ── Status badges ── */
+    .status-badge { display: inline-block; padding: .2rem .7rem; border-radius: 50px; font-size: .8rem; font-weight: 600; }
+    .s-available { background: #e8f5e9; color: #2e7d32; }
+    .s-occupied  { background: #fce4ec; color: #c62828; }
+    .s-reserved  { background: #fff8e1; color: #e65100; }
+
+    /* ── Toast ── */
+    .toast { display: none; position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%); background: var(--green-dark); color: var(--white); padding: .8rem 1.6rem; border-radius: 50px; box-shadow: 0 4px 20px rgba(0,0,0,.2); z-index: 9999; font-size: .95rem; font-weight: 500; white-space: nowrap; }
+
+    /* ── Highlight bar ── */
+    .highlight-bar { background: linear-gradient(90deg, var(--green) 0%, var(--brown-light) 100%); color: var(--white); text-align: center; padding: .6rem 1rem; font-size: .88rem; font-weight: 500; }
+
+    /* ── Footer ── */
+    footer { background: var(--green-dark); color: rgba(255,255,255,.85); text-align: center; padding: 2rem 1rem; font-size: .88rem; }
+    footer strong { color: var(--white); font-size: 1rem; }
+    .footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: .75rem 1.5rem; margin: 1rem 0; }
+    .footer-links a { color: rgba(255,255,255,.75); text-decoration: none; }
+    .footer-links a:hover { color: var(--white); text-decoration: underline; }
+
+    /* ── Utility ── */
+    .mt-1 { margin-top: .5rem; } .mt-2 { margin-top: 1rem; }
+    .text-center { text-align: center; } .pb-3 { padding-bottom: 3rem; }
+
+    /* ── LINE floating btn ── */
+    .line-float { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 500; background: #06C755; color: #fff; width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: 0 4px 16px rgba(6,199,85,.4); text-decoration: none; transition: transform .2s; }
+    .line-float:hover { transform: scale(1.1); }
+  </style>
+</head>
+<body>
+
+<!-- Toast -->
+<div class="toast" id="toast">✅ ส่งข้อมูลเรียบร้อยแล้ว!</div>
+
+<!-- LINE floating button -->
+<a href="https://line.me/R/ti/p/@2009932183" class="line-float" target="_blank" title="ติดต่อ LINE OA">💬</a>
+
+<!-- ══════════════════════════════
+     LIGHTBOX MODAL
+══════════════════════════════ -->
+<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox(event)">
+  <div class="lightbox-box" id="lightboxBox">
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+    <div class="lightbox-title" id="lbTitle">ห้อง 101</div>
+    <div class="lightbox-photos" id="lbPhotos"></div>
+    <div class="lightbox-info" id="lbInfo"></div>
+    <div class="lightbox-cta">
+      <a href="https://line.me/R/ti/p/@2009932183" class="btn btn-line" target="_blank">💬 สอบถามผ่าน LINE</a>
+      <button class="btn btn-green" onclick="showPage('booking');closeLightbox()">📅 นัดชมห้องนี้</button>
+    </div>
+  </div>
+</div>
+
+<!-- Announce bar -->
+<div class="highlight-bar">
+  🏡 หอพักลุงฟุ้ง &nbsp;|&nbsp; อบอุ่น ปลอดภัย เหมือนบ้าน &nbsp;|&nbsp; 💬 LINE OA: กดปุ่มสีเขียวขวาล่าง
+</div>
+
+<!-- Navbar -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo" onclick="showPage('home')">🏠 หอพักลุงฟุ้ง</a>
+    <div class="nav-links">
+      <a href="#" onclick="showPage('home')"      id="nav-home"      class="active">หน้าหลัก</a>
+      <a href="#" onclick="showPage('available')" id="nav-available">🔑 ห้องว่าง</a>
+      <a href="#" onclick="showPage('rooms')"     id="nav-rooms">ห้องพัก & ราคา</a>
+      <a href="#" onclick="showPage('news')"      id="nav-news">📢 ข่าวสาร</a>
+      <a href="#" onclick="showPage('booking')"   id="nav-booking">📅 นัดชม</a>
+      <a href="#" onclick="showPage('maint')"     id="nav-maint">🔧 แจ้งซ่อม</a>
+      <a href="#" onclick="showPage('contact')"   id="nav-contact">ติดต่อ</a>
+    </div>
+    <button class="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#" onclick="showPage('home');toggleMenu()">🏠 หน้าหลัก</a>
+    <a href="#" onclick="showPage('available');toggleMenu()">🔑 ห้องว่าง (14 ห้อง)</a>
+    <a href="#" onclick="showPage('rooms');toggleMenu()">🛏️ ห้องพัก & ราคา</a>
+    <a href="#" onclick="showPage('news');toggleMenu()">📢 ข่าวสาร & บิล</a>
+    <a href="#" onclick="showPage('booking');toggleMenu()">📅 นัดชมห้อง</a>
+    <a href="#" onclick="showPage('maint');toggleMenu()">🔧 แจ้งซ่อม</a>
+    <a href="#" onclick="showPage('contact');toggleMenu()">📞 ติดต่อ</a>
+  </div>
+</nav>
+
+<!-- ════════════════════════════════
+     PAGE: HOME
+════════════════════════════════ -->
+<section class="page active" id="home">
+  <div class="hero">
+    <div class="container">
+      <div class="hero-logo-circle">🏡</div>
+      <h1>หอพักลุงฟุ้ง</h1>
+      <p class="hero-sub">อยู่สบาย ใจดี เหมือนอยู่บ้านตา</p>
+      <div class="hero-tagline">✨ อบอุ่น ปลอดภัย เหมือนบ้าน — 14 ห้อง</div>
+      <div class="hero-btns">
+        <button class="btn btn-white btn-lg" onclick="showPage('available')">🔑 ดูห้องว่าง</button>
+        <a href="https://line.me/R/ti/p/@2009932183" class="btn btn-line btn-lg" target="_blank">💬 Add LINE OA</a>
+        <button class="btn btn-lg" style="background:rgba(255,255,255,.2);color:#fff;border:2px solid rgba(255,255,255,.5)" onclick="showPage('news')">📢 ข่าวสาร & บิล</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="features">
+    <div class="features-grid">
+      <div class="feature-item"><div class="feature-icon">🔒</div><div class="feature-title">ปลอดภัย</div><div class="feature-desc">กล้องวงจรปิด</div></div>
+      <div class="feature-item"><div class="feature-icon">📶</div><div class="feature-title">Wi-Fi ฟรี</div><div class="feature-desc">ความเร็วสูง</div></div>
+      <div class="feature-item"><div class="feature-icon">🧺</div><div class="feature-title">ซักรีด</div><div class="feature-desc">หยอดเหรียญ 24 ชม.</div></div>
+      <div class="feature-item"><div class="feature-icon">🚗</div><div class="feature-title">ที่จอดรถ</div><div class="feature-desc">รถยนต์ & มอเตอร์ไซค์</div></div>
+      <div class="feature-item"><div class="feature-icon">🧹</div><div class="feature-title">สะอาด</div><div class="feature-desc">ทำความสะอาดทุกวัน</div></div>
+      <div class="feature-item"><div class="feature-icon">🔧</div><div class="feature-title">แจ้งซ่อมด่วน</div><div class="feature-desc">ช่างตอบสนองเร็ว</div></div>
+    </div>
+  </div>
+
+  <div style="max-width:1100px;margin:2.5rem auto;padding:0 1rem 1rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
+    <div style="background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:1.5rem;border-left:4px solid var(--green);">
+      <div style="font-size:1.5rem;margin-bottom:.4rem">📍</div>
+      <h3 style="font-size:1rem;color:var(--green-dark);margin-bottom:.3rem">ที่ตั้ง</h3>
+      <p style="font-size:.88rem;color:var(--text-light)">ใกล้มหาวิทยาลัย ห่างเพียง 500 เมตร<br>มีรถสองแถวหน้าหอ</p>
+    </div>
+    <div style="background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:1.5rem;border-left:4px solid var(--brown-light);">
+      <div style="font-size:1.5rem;margin-bottom:.4rem">💰</div>
+      <h3 style="font-size:1rem;color:var(--green-dark);margin-bottom:.3rem">ราคา</h3>
+      <p style="font-size:.88rem;color:var(--text-light)">ห้องพัดลม <strong style="color:var(--brown)">2,800+</strong><br>ห้องแอร์ <strong style="color:var(--brown)">4,200+ บาท/เดือน</strong></p>
+    </div>
+    <div style="background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:1.5rem;border-left:4px solid var(--green);">
+      <div style="font-size:1.5rem;margin-bottom:.4rem">⏰</div>
+      <h3 style="font-size:1rem;color:var(--green-dark);margin-bottom:.3rem">เวลาทำการ</h3>
+      <p style="font-size:.88rem;color:var(--text-light)">เปิดทุกวัน 09:00 – 20:00<br>รับเข้าพักได้ตลอดปี</p>
+    </div>
+    <div style="background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:1.5rem;border-left:4px solid var(--brown-light);">
+      <div style="font-size:1.5rem;margin-bottom:.4rem">🤝</div>
+      <h3 style="font-size:1rem;color:var(--green-dark);margin-bottom:.3rem">สัญญาเช่า</h3>
+      <p style="font-size:.88rem;color:var(--text-light)">สัญญาขั้นต่ำ 3 เดือน<br>มัดจำ 2 เดือน + ค่าเช่า 1 เดือน</p>
+    </div>
+  </div>
+
+  <!-- LINE CTA Banner -->
+  <div style="max-width:900px;margin:0 auto 3rem;padding:0 1rem;">
+    <div style="background:linear-gradient(135deg,#06C755,#04a344);border-radius:var(--radius);padding:2rem;text-align:center;color:#fff;">
+      <div style="font-size:2rem;margin-bottom:.5rem">💬</div>
+      <h3 style="font-size:1.25rem;font-weight:700;margin-bottom:.4rem">ติดต่อผ่าน LINE OA ได้เลย!</h3>
+      <p style="opacity:.9;margin-bottom:1.25rem;font-size:.95rem">สอบถามห้องว่าง ราคา หรือนัดชมห้องได้ทันที</p>
+      <a href="https://line.me/R/ti/p/@2009932183" class="btn" style="background:#fff;color:#06C755;font-size:1rem;" target="_blank">💬 เพิ่มเพื่อน LINE OA</a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     PAGE: AVAILABLE ROOMS (14 ห้อง)
+════════════════════════════════ -->
+<section class="page" id="available">
+  <div class="section-head">
+    <div class="section-badge">🔑 สถานะห้องพักทั้งหมด</div>
+    <h2>14 ห้อง — ดูสถานะและรูปภาพ</h2>
+    <p id="lastUpdated">กำลังโหลดข้อมูล...</p>
+    <div class="divider"></div>
+  </div>
+
+  <div class="rooms-status-header">
+    <div class="status-legend">
+      <div class="legend-dot"><div class="dot dot-available"></div>ว่าง</div>
+      <div class="legend-dot"><div class="dot dot-occupied"></div>ไม่ว่าง</div>
+      <div class="legend-dot"><div class="dot dot-reserved"></div>จองแล้ว</div>
+    </div>
+    <div>
+      <span class="sheets-badge">📊 เชื่อมต่อ Google Sheets</span>
+      <button onclick="loadRoomsFromSheets()" style="margin-left:.5rem;background:none;border:1px solid var(--green-light);border-radius:50px;padding:.2rem .65rem;font-size:.78rem;cursor:pointer;color:var(--green-dark);font-family:inherit;">🔄 รีเฟรช</button>
+    </div>
+  </div>
+
+  <div id="roomsByFloor"></div>
+
+  <div style="text-align:center;padding:0 1rem 3rem;">
+    <p style="font-size:.85rem;color:var(--text-light);margin-bottom:1rem">* กดที่ห้องเพื่อดูรูปภาพและรายละเอียด</p>
+    <a href="https://line.me/R/ti/p/@2009932183" class="btn btn-line btn-lg" target="_blank">💬 สอบถามห้องว่างผ่าน LINE</a>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     PAGE: ROOM TYPES & PRICING
+════════════════════════════════ -->
+<section class="page" id="rooms">
+  <div class="section-head">
+    <div class="section-badge">🛏️ ประเภทห้องพัก</div>
+    <h2>ห้องพักและราคา</h2>
+    <p>เลือกห้องที่ใช่ ในราคาที่ชอบ</p>
+    <div class="divider"></div>
+  </div>
+
+  <div class="rooms-type-grid">
+    <div class="rtype-card">
+      <div class="rtype-img rtype-img-fan">
+        <div class="rtype-icon">🌀</div>
+        <div class="rtype-label" style="color:var(--green-dark)">ห้องพัดลม</div>
+      </div>
+      <div class="rtype-body">
+        <div class="rtype-name">ห้องพักพัดลม (Standard)</div>
+        <div class="rtype-price">2,800 – 3,200 <small>บาท / เดือน</small></div>
+        <div style="font-size:.8rem;color:var(--text-light);margin-top:.2rem">ขนาด 24–28 ตร.ม. | ชั้น 1, 3</div>
+        <div class="cost-rows">
+          <div class="cost-row"><span style="color:var(--text-light)">💧 ค่าน้ำ</span><span style="font-weight:600">18 บาท/หน่วย</span></div>
+          <div class="cost-row"><span style="color:var(--text-light)">⚡ ค่าไฟ</span><span style="font-weight:600">7 บาท/หน่วย</span></div>
+          <div class="cost-row"><span style="color:var(--text-light)">🌐 Wi-Fi</span><span style="font-weight:600">รวมในค่าเช่า</span></div>
+          <div class="cost-row"><span style="color:var(--text-light)">🚗 ที่จอดรถ</span><span style="font-weight:600">200 บาท/เดือน</span></div>
+        </div>
+        <div class="amenity-tags">
+          <span class="amenity-tag">🛋️ เตียง</span><span class="amenity-tag">🪑 โต๊ะเก้าอี้</span>
+          <span class="amenity-tag">🚿 ห้องน้ำในตัว</span><span class="amenity-tag">🌀 พัดลม 2 ตัว</span>
+          <span class="amenity-tag">🔒 กุญแจนิรภัย</span>
+        </div>
+        <button class="btn btn-green btn-full mt-2" onclick="showPage('booking')">📅 นัดชมห้องนี้</button>
+      </div>
+    </div>
+
+    <div class="rtype-card">
+      <div class="rtype-img rtype-img-ac">
+        <div class="rtype-icon">❄️</div>
+        <div class="rtype-label" style="color:#1565c0">ห้องแอร์</div>
+      </div>
+      <div class="rtype-body">
+        <div class="rtype-name">ห้องพักแอร์ (Premium)</div>
+        <div class="rtype-price">4,200 – 4,800 <small>บาท / เดือน</small></div>
+        <div style="font-size:.8rem;color:var(--text-light);margin-top:.2rem">ขนาด 28–35 ตร.ม. | ชั้น 2, 3, 4</div>
+        <div class="cost-rows">
+          <div class="cost-row"><span style="color:var(--text-light)">💧 ค่าน้ำ</span><span style="font-weight:600">18 บาท/หน่วย</span></div>
+          <div class="cost-row"><span style="color:var(--text-light)">⚡ ค่าไฟ</span><span style="font-weight:600">7 บาท/หน่วย</span></div>
+          <div class="cost-row"><span style="color:var(--text-light)">🌐 Wi-Fi</span><span style="font-weight:600">รวมในค่าเช่า</span></div>
+          <div class="cost-row"><span style="color:var(--text-light)">🚗 ที่จอดรถ</span><span style="font-weight:600">200 บาท/เดือน</span></div>
+        </div>
+        <div class="amenity-tags">
+          <span class="amenity-tag">🛋️ เตียง</span><span class="amenity-tag">🪑 โต๊ะเก้าอี้</span>
+          <span class="amenity-tag">🚿 ห้องน้ำในตัว</span><span class="amenity-tag">❄️ แอร์</span>
+          <span class="amenity-tag">🔒 กุญแจนิรภัย</span><span class="amenity-tag">🚪 ระเบียง</span>
+        </div>
+        <button class="btn btn-green btn-full mt-2" onclick="showPage('booking')">📅 นัดชมห้องนี้</button>
+      </div>
+    </div>
+  </div>
+
+  <div style="max-width:640px;margin:0 auto 3rem;padding:0 1rem;">
+    <div style="background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:1.5rem;border:1px solid var(--beige-dark);">
+      <h3 style="font-size:1rem;font-weight:700;color:var(--green-dark);margin-bottom:1rem">📋 ค่าใช้จ่ายแรกเข้า</h3>
+      <div style="display:flex;flex-direction:column;gap:.5rem;">
+        <div class="cost-row"><span>เงินมัดจำ</span><span style="font-weight:700">2 เดือน</span></div>
+        <div class="cost-row"><span>ค่าเช่าล่วงหน้า</span><span style="font-weight:700">1 เดือน</span></div>
+        <div class="cost-row" style="background:var(--green-pale);border:1px solid var(--green-light)"><span>รวม (ห้องพัดลม)</span><span style="font-weight:700;color:var(--brown)">~11,200 บาท</span></div>
+        <div class="cost-row" style="background:var(--green-pale);border:1px solid var(--green-light)"><span>รวม (ห้องแอร์)</span><span style="font-weight:700;color:var(--brown)">~16,800 บาท</span></div>
+      </div>
+      <p style="font-size:.8rem;color:var(--text-light);margin-top:.75rem">* เงินมัดจำคืนเมื่อออกห้องตามเงื่อนไข</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     PAGE: NEWS & BILLS
+════════════════════════════════ -->
+<section class="page" id="news">
+  <div class="section-head">
+    <div class="section-badge">📢 ข่าวสารและการแจ้งเตือน</div>
+    <h2>ประกาศและกำหนดชำระ</h2>
+    <p>ค่าน้ำ ค่าไฟ ค่าห้อง และข่าวสารหอพัก</p>
+    <div class="divider"></div>
+  </div>
+
+  <div class="announce-grid" id="announceGrid">
+    <!-- Loaded by JS from announcements data (or Google Sheets) -->
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     PAGE: BOOK A VISIT
+════════════════════════════════ -->
+<section class="page" id="booking">
+  <div class="section-head">
+    <div class="section-badge">📅 นัดชมห้อง</div>
+    <h2>นัดชมห้องพัก</h2>
+    <p>กรอกข้อมูลเพื่อนัดวันชมห้อง ลุงฟุ้งยินดีต้อนรับ!</p>
+    <div class="divider"></div>
+  </div>
+  <div class="form-section">
+    <div class="form-notice"><strong>ℹ️ วิธีนัดชม</strong>กรอกข้อมูลด้านล่าง จากนั้นลุงฟุ้งจะติดต่อกลับภายใน 24 ชั่วโมง</div>
+    <div class="form-card">
+      <form onsubmit="submitForm(event)">
+        <div class="form-row">
+          <div class="form-group"><label>ชื่อ-นามสกุล <span>*</span></label><input type="text" placeholder="เช่น สมชาย ใจดี" required /></div>
+          <div class="form-group"><label>เบอร์โทรศัพท์ <span>*</span></label><input type="tel" placeholder="08X-XXX-XXXX" required /></div>
+        </div>
+        <div class="form-group"><label>LINE ID (ถ้ามี)</label><input type="text" placeholder="@lineID หรือชื่อ LINE ของคุณ" /></div>
+        <div class="form-row">
+          <div class="form-group"><label>วันที่ต้องการชม <span>*</span></label><input type="date" required /></div>
+          <div class="form-group"><label>เวลาที่สะดวก <span>*</span></label>
+            <select required>
+              <option value="">-- เลือกช่วงเวลา --</option>
+              <option>09:00 – 11:00</option><option>11:00 – 13:00</option>
+              <option>13:00 – 15:00</option><option>15:00 – 17:00</option><option>17:00 – 19:00</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>ประเภทห้อง</label>
+            <select><option>-- ยังไม่แน่ใจ --</option><option>🌀 ห้องพัดลม</option><option>❄️ ห้องแอร์</option><option>ชมทั้งสองประเภท</option></select>
+          </div>
+          <div class="form-group"><label>จำนวนผู้มาชม</label>
+            <select><option>1 คน</option><option>2 คน</option><option>3 คน</option><option>4 คนขึ้นไป</option></select>
+          </div>
+        </div>
+        <div class="form-group"><label>ข้อความเพิ่มเติม</label><textarea placeholder="คำถาม หรือข้อสังเกตพิเศษ..."></textarea></div>
+        <button type="submit" class="btn btn-green btn-full btn-lg">📅 ส่งคำขอนัดชม</button>
+      </form>
+    </div>
+    <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1rem;justify-content:center;">
+      <a href="https://line.me/R/ti/p/@2009932183" class="btn btn-line" target="_blank">💬 LINE OA</a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     PAGE: MAINTENANCE
+════════════════════════════════ -->
+<section class="page" id="maint">
+  <div class="section-head">
+    <div class="section-badge">🔧 แจ้งซ่อม</div>
+    <h2>แจ้งปัญหาและขอซ่อมแซม</h2>
+    <p>แจ้งปัญหาได้เลย ทีมช่างของเราพร้อมช่วยเหลือ</p>
+    <div class="divider"></div>
+  </div>
+  <div class="form-section">
+    <div class="form-notice"><strong>🚨 กรณีเร่งด่วน (น้ำท่วม / ไฟดับ / ประตูเสีย)</strong>LINE OA หรือโทรหาลุงฟุ้งโดยตรง</div>
+    <div class="form-card">
+      <form onsubmit="submitForm(event)">
+        <div class="form-row">
+          <div class="form-group"><label>เลขห้อง <span>*</span></label><input type="text" placeholder="เช่น 201" required /></div>
+          <div class="form-group"><label>ชื่อผู้แจ้ง <span>*</span></label><input type="text" placeholder="ชื่อ-นามสกุล" required /></div>
+        </div>
+        <div class="form-group"><label>เบอร์โทรติดต่อกลับ <span>*</span></label><input type="tel" placeholder="08X-XXX-XXXX" required /></div>
+        <div class="form-group"><label>ประเภทปัญหา <span>*</span></label>
+          <select required>
+            <option value="">-- เลือกประเภทปัญหา --</option>
+            <option>🚰 ประปา / น้ำรั่ว / ท่อตัน</option><option>⚡ ไฟฟ้า / เต้าเสียบ / หลอดไฟ</option>
+            <option>❄️ เครื่องปรับอากาศ</option><option>🪟 ประตู / หน้าต่าง / กุญแจ</option>
+            <option>🐛 แมลง / สัตว์รบกวน</option><option>📶 Wi-Fi / อินเทอร์เน็ต</option><option>อื่น ๆ</option>
+          </select>
+        </div>
+        <div class="form-group"><label>รายละเอียดปัญหา <span>*</span></label><textarea placeholder="อธิบายปัญหาให้ละเอียด..." required></textarea></div>
+        <div class="form-group"><label>แนบรูปภาพ (ถ้ามี)</label>
+          <div class="file-input-wrap" onclick="document.getElementById('fileInput').click()">
+            <input type="file" id="fileInput" accept="image/*" multiple onchange="updateFileLabel(this)" />
+            <span class="file-icon">📷</span>
+            <span class="file-label" id="fileLabel"><strong>คลิกเพื่อเลือกรูป</strong> หรือลากมาวางที่นี่<br>JPG, PNG ขนาดไม่เกิน 5MB</span>
+          </div>
+        </div>
+        <div class="form-group"><label>ความเร่งด่วน</label>
+          <select><option>🟢 ปกติ — รอได้ 1-3 วัน</option><option>🟡 ปานกลาง — ภายใน 24 ชม.</option><option>🔴 เร่งด่วน — ต้องการวันนี้</option></select>
+        </div>
+        <button type="submit" class="btn btn-brown btn-full btn-lg">🔧 ส่งคำขอซ่อม</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════
+     PAGE: CONTACT
+════════════════════════════════ -->
+<section class="page" id="contact">
+  <div class="section-head">
+    <div class="section-badge">📞 ติดต่อเรา</div>
+    <h2>ช่องทางการติดต่อ</h2>
+    <p>ลุงฟุ้งพร้อมตอบทุกคำถาม!</p>
+    <div class="divider"></div>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-card">
+      <div class="contact-icon">💬</div>
+      <h3>LINE Official Account</h3>
+      <p>ติดต่อง่าย ตอบไว<br>Channel ID: 2009932183</p>
+      <a href="https://line.me/R/ti/p/@2009932183" class="btn btn-line btn-full" target="_blank">💬 เพิ่มเพื่อน LINE OA</a>
+    </div>
+    <div class="contact-card">
+      <div class="contact-icon">📍</div>
+      <h3>ที่ตั้ง</h3>
+      <p>ใกล้มหาวิทยาลัย<br>ห่าง 500 เมตร</p>
+      <a href="https://maps.google.com" class="btn btn-brown btn-full" target="_blank">🗺️ Google Maps</a>
+    </div>
+    <div class="contact-card">
+      <div class="contact-icon">⏰</div>
+      <h3>เวลาทำการ</h3>
+      <p>จ–ศ: 09:00–20:00<br>ส–อ: 09:00–18:00</p>
+      <div style="font-size:.82rem;color:var(--text-light);margin-top:.5rem">ชำระค่าเช่า: วันที่ 1–5 ของเดือน</div>
+    </div>
+  </div>
+
+  <div style="max-width:640px;margin:0 auto;padding:0 1rem 3rem;">
+    <div style="background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:1.5rem;border:1px solid var(--beige-dark);">
+      <h3 style="font-size:1rem;font-weight:700;color:var(--green-dark);margin-bottom:1rem">⏰ กำหนดชำระเงิน</h3>
+      <div style="display:flex;flex-direction:column;gap:.5rem;font-size:.9rem;">
+        <div class="cost-row" style="background:var(--green-pale)"><span>📅 ค่าเช่าห้อง</span><span style="font-weight:600">วันที่ 1–5 ของทุกเดือน</span></div>
+        <div class="cost-row"><span>💧 ค่าน้ำ</span><span style="font-weight:600">วันที่ 5 ของทุกเดือน</span></div>
+        <div class="cost-row"><span>⚡ ค่าไฟ</span><span style="font-weight:600">วันที่ 5 ของทุกเดือน</span></div>
+      </div>
+      <p style="font-size:.8rem;color:var(--text-light);margin-top:.75rem">* รับชำระ: เงินสด / โอนพร้อมเพย์</p>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <strong>🏡 หอพักลุงฟุ้ง</strong>
+  <p style="margin-top:.35rem;opacity:.8">อยู่สบาย ใจดี เหมือนอยู่บ้านตา</p>
+  <div class="footer-links">
+    <a href="#" onclick="showPage('home')">หน้าหลัก</a>
+    <a href="#" onclick="showPage('available')">ห้องว่าง</a>
+    <a href="#" onclick="showPage('rooms')">ห้องพัก & ราคา</a>
+    <a href="#" onclick="showPage('news')">ข่าวสาร</a>
+    <a href="#" onclick="showPage('booking')">นัดชมห้อง</a>
+    <a href="#" onclick="showPage('contact')">ติดต่อ</a>
+  </div>
+  <p style="opacity:.6;font-size:.8rem;margin-top:.5rem">© 2569 หอพักลุงฟุ้ง</p>
+</footer>
+
+<script>
+/* ══════════════════════════════════════════════════════
+   GOOGLE SHEETS CONFIG
+   ─────────────────────────────────────────────────────
+   วิธีเชื่อมต่อ Google Sheets:
+   1. สร้าง Google Sheet ที่มี 2 sheet:
+      - "Rooms": Room | Floor | Type | Status | Price | Note
+      - "Announcements": Date | Type | Title | Description | Amount | DueDate
+   2. File → Share → Publish to web → CSV → Copy URL
+   3. วาง URL ด้านล่าง
+
+   Status ในชีต: available | occupied | reserved
+   Type: fan | ac
+══════════════════════════════════════════════════════ */
+const SHEETS_CONFIG = {
+  roomsUrl: '',       // วาง URL CSV ของ sheet "Rooms" ที่นี่
+  announceUrl: '',    // วาง URL CSV ของ sheet "Announcements" ที่นี่
+  useSheets: false,   // เปลี่ยนเป็น true เมื่อใส่ URL แล้ว
+};
+
+/* ══ ข้อมูลห้อง 14 ห้อง (Default — แก้ได้ หรือใช้ Google Sheets) ══ */
+const defaultRooms = [
+  { no:'101', floor:1, type:'fan', status:'occupied',  price:2800, note:'ติดทางเข้า' },
+  { no:'102', floor:1, type:'fan', status:'available', price:2800, note:'ติดลาน' },
+  { no:'103', floor:1, type:'fan', status:'occupied',  price:3000, note:'ห้องมุม' },
+  { no:'104', floor:1, type:'fan', status:'available', price:3000, note:'' },
+  { no:'201', floor:2, type:'ac',  status:'occupied',  price:4200, note:'' },
+  { no:'202', floor:2, type:'ac',  status:'occupied',  price:4200, note:'' },
+  { no:'203', floor:2, type:'ac',  status:'available', price:4500, note:'ห้องมุม วิวดี' },
+  { no:'204', floor:2, type:'ac',  status:'reserved',  price:4200, note:'จอง พ.ค.' },
+  { no:'301', floor:3, type:'fan', status:'occupied',  price:3200, note:'' },
+  { no:'302', floor:3, type:'ac',  status:'available', price:4800, note:'ชั้นสูง เงียบ' },
+  { no:'303', floor:3, type:'fan', status:'occupied',  price:3000, note:'' },
+  { no:'304', floor:3, type:'ac',  status:'available', price:4800, note:'' },
+  { no:'401', floor:4, type:'ac',  status:'occupied',  price:4200, note:'' },
+  { no:'402', floor:4, type:'ac',  status:'available', price:4800, note:'ชั้นสูงสุด ลม' },
+];
+
+/* ══ ประกาศ (Default) ══ */
+const defaultAnnouncements = [
+  {
+    type: 'room', title: 'กำหนดชำระค่าเช่าห้อง — พฤษภาคม 2569',
+    desc: 'กรุณาชำระค่าเช่าห้องภายในวันที่ 5 พฤษภาคม 2569 หากเกินกำหนดมีค่าปรับวันละ 50 บาท',
+    amount: 'ตามสัญญาเช่า', due: '5 พ.ค. 2569', date: '1 พ.ค. 2569'
+  },
+  {
+    type: 'water', title: 'แจ้งอ่านมิเตอร์น้ำ — เดือนพฤษภาคม 2569',
+    desc: 'จะเข้าอ่านมิเตอร์น้ำวันที่ 1 พฤษภาคม 2569 กรุณาชำระภายในวันที่ 5 พฤษภาคม 2569 อัตรา 18 บาท/หน่วย',
+    amount: '18 บาท/หน่วย', due: '5 พ.ค. 2569', date: '1 พ.ค. 2569'
+  },
+  {
+    type: 'electric', title: 'แจ้งอ่านมิเตอร์ไฟฟ้า — เดือนพฤษภาคม 2569',
+    desc: 'จะเข้าอ่านมิเตอร์ไฟฟ้าวันที่ 1 พฤษภาคม 2569 กรุณาชำระภายในวันที่ 5 พฤษภาคม 2569 อัตรา 7 บาท/หน่วย',
+    amount: '7 บาท/หน่วย', due: '5 พ.ค. 2569', date: '1 พ.ค. 2569'
+  },
+  {
+    type: 'news', title: 'ประกาศ: ปิดน้ำชั่วคราว',
+    desc: 'จะปิดน้ำเพื่อซ่อมท่อในวันที่ 3 พฤษภาคม 2569 เวลา 09:00–12:00 น. ขออภัยในความไม่สะดวก',
+    amount: '', due: '3 พ.ค. 2569', date: '29 เม.ย. 2569'
+  },
+];
+
+/* ══ สีและ icon ตามประเภท ══ */
+const typeMap = {
+  room:     { stripe: 'stripe-room',     cls: 'type-room',     icon: '🏠', label: 'ค่าห้อง' },
+  water:    { stripe: 'stripe-water',    cls: 'type-water',    icon: '💧', label: 'ค่าน้ำ' },
+  electric: { stripe: 'stripe-electric', cls: 'type-electric', icon: '⚡', label: 'ค่าไฟ' },
+  news:     { stripe: 'stripe-news',     cls: 'type-news',     icon: '📢', label: 'ข่าวสาร' },
+};
+
+const roomMockups = [
+  { bg: 'linear-gradient(160deg,#e8f5e9,#c8e6c9,#fff8e1)', icon: '🛏️', label: 'ห้องนอน' },
+  { bg: 'linear-gradient(160deg,#fff8e1,#fde68a,#fef9ee)', icon: '🪑', label: 'โต๊ะทำงาน' },
+  { bg: 'linear-gradient(160deg,#e3f2fd,#bbdefb,#e1f5fe)', icon: '🚿', label: 'ห้องน้ำ' },
+  { bg: 'linear-gradient(160deg,#f3e5f5,#e1bee7,#fff3e0)', icon: '🪟', label: 'หน้าต่าง' },
+];
+
+/* ════════════════════════════════
+   RENDER ROOMS
+════════════════════════════════ */
+function renderRooms(rooms) {
+  const container = document.getElementById('roomsByFloor');
+  const floors = [...new Set(rooms.map(r => r.floor))].sort();
+  const available = rooms.filter(r => r.status === 'available').length;
+  document.getElementById('lastUpdated').textContent =
+    `ห้องว่าง ${available} จาก ${rooms.length} ห้อง • อัพเดต ${new Date().toLocaleDateString('th-TH')}`;
+
+  container.innerHTML = floors.map(floor => {
+    const floorRooms = rooms.filter(r => r.floor === floor);
+    return `
+      <div class="floor-section">
+        <div class="floor-label">🏢 ชั้น ${floor}</div>
+        <div class="room-grid">
+          ${floorRooms.map(r => renderRoomCard(r)).join('')}
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function renderRoomCard(r) {
+  const statusMap = {
+    available: { badge: 'badge-available', cls: 'available', text: '✅ ว่าง' },
+    occupied:  { badge: 'badge-occupied',  cls: 'occupied',  text: '🔴 ไม่ว่าง' },
+    reserved:  { badge: 'badge-reserved',  cls: 'reserved',  text: '🟡 จองแล้ว' },
+  };
+  const s = statusMap[r.status] || statusMap.occupied;
+  const t = r.type === 'fan' ? { tag: 'tag-fan', icon: '🌀', label: 'พัดลม' } : { tag: 'tag-ac', icon: '❄️', label: 'แอร์' };
+  const mockup = roomMockups[parseInt(r.no) % roomMockups.length];
+
+  return `
+    <div class="room-card ${s.cls}" onclick="openLightbox('${r.no}')">
+      <div class="room-card-img">
+        <div class="room-mockup" style="background:${mockup.bg}">
+          <div class="room-mockup-icon">${mockup.icon}</div>
+          <div class="room-mockup-label">${mockup.label}</div>
+        </div>
+        <div class="room-status-badge ${s.badge}">${s.text}</div>
+        <button class="view-photos-btn" onclick="event.stopPropagation();openLightbox('${r.no}')">📷 ดูรูป</button>
+      </div>
+      <div class="room-card-body">
+        <div>
+          <span class="room-num">ห้อง ${r.no}</span>
+          <span class="room-type-tag ${t.tag}">${t.icon} ${t.label}</span>
+        </div>
+        <div class="room-price-line">${r.price.toLocaleString()} <small>บาท/เดือน</small></div>
+        ${r.note ? `<div class="room-note">📌 ${r.note}</div>` : ''}
+      </div>
+    </div>`;
+}
+
+/* ════════════════════════════════
+   LIGHTBOX
+════════════════════════════════ */
+let allRooms = [];
+
+function openLightbox(roomNo) {
+  const r = allRooms.find(x => x.no === roomNo);
+  if (!r) return;
+  const t = r.type === 'fan' ? { icon: '🌀', label: 'ห้องพัดลม' } : { icon: '❄️', label: 'ห้องแอร์' };
+  const s = { available: 'ว่าง ✅', occupied: 'ไม่ว่าง 🔴', reserved: 'จองแล้ว 🟡' }[r.status];
+
+  document.getElementById('lbTitle').textContent = `ห้อง ${r.no} — ${t.label}`;
+  document.getElementById('lbPhotos').innerHTML = roomMockups.map((m, i) => `
+    <div class="lightbox-photo">
+      <div class="photo-mockup" style="background:${m.bg}">
+        <span>${m.icon}</span>
+        <p>${m.label}</p>
+      </div>
+    </div>`).join('');
+
+  document.getElementById('lbInfo').innerHTML = `
+    <div class="info-row"><span class="label">เลขห้อง</span><span class="val">ห้อง ${r.no}</span></div>
+    <div class="info-row"><span class="label">ชั้น</span><span class="val">ชั้น ${r.floor}</span></div>
+    <div class="info-row"><span class="label">ประเภท</span><span class="val">${t.icon} ${t.label}</span></div>
+    <div class="info-row"><span class="label">ราคา/เดือน</span><span class="val" style="color:var(--brown);font-size:1.1rem">${r.price.toLocaleString()} บาท</span></div>
+    <div class="info-row"><span class="label">สถานะ</span><span class="val">${s}</span></div>
+    ${r.note ? `<div class="info-row"><span class="label">หมายเหตุ</span><span class="val">${r.note}</span></div>` : ''}`;
+
+  document.getElementById('lightbox').classList.add('open');
+}
+
+function closeLightbox(e) {
+  if (!e || e.target === document.getElementById('lightbox')) {
+    document.getElementById('lightbox').classList.remove('open');
+  }
+}
+
+/* ════════════════════════════════
+   ANNOUNCEMENTS
+════════════════════════════════ */
+function renderAnnouncements(data) {
+  const grid = document.getElementById('announceGrid');
+  if (!data.length) {
+    grid.innerHTML = '<p style="text-align:center;color:var(--text-light);padding:2rem">ยังไม่มีประกาศในขณะนี้</p>';
+    return;
+  }
+  grid.innerHTML = data.map(a => {
+    const tm = typeMap[a.type] || typeMap.news;
+    return `
+      <div class="announce-card">
+        <div class="announce-stripe ${tm.stripe}"></div>
+        <div class="announce-body">
+          <div class="announce-type ${tm.cls}">${tm.icon} ${tm.label}</div>
+          <div class="announce-title">${a.title}</div>
+          <div class="announce-desc">${a.desc}</div>
+          <div class="announce-meta">
+            ${a.due ? `<span class="announce-chip chip-due">⏰ ครบกำหนด ${a.due}</span>` : ''}
+            ${a.amount ? `<span class="announce-chip chip-amount">💰 ${a.amount}</span>` : ''}
+            <span class="announce-chip chip-date">📅 ${a.date}</span>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+/* ════════════════════════════════
+   GOOGLE SHEETS FETCH
+════════════════════════════════ */
+async function loadRoomsFromSheets() {
+  if (!SHEETS_CONFIG.useSheets || !SHEETS_CONFIG.roomsUrl) {
+    allRooms = defaultRooms;
+    renderRooms(allRooms);
+    return;
+  }
+  try {
+    const res = await fetch(SHEETS_CONFIG.roomsUrl);
+    const csv = await res.text();
+    const rows = csv.trim().split('\n').slice(1);
+    allRooms = rows.map(row => {
+      const [no, floor, type, status, price, note] = row.split(',').map(s => s.trim().replace(/"/g,''));
+      return { no, floor: parseInt(floor), type, status, price: parseInt(price), note: note || '' };
+    });
+    renderRooms(allRooms);
+  } catch(e) {
+    allRooms = defaultRooms;
+    renderRooms(allRooms);
+  }
+}
+
+async function loadAnnouncementsFromSheets() {
+  if (!SHEETS_CONFIG.useSheets || !SHEETS_CONFIG.announceUrl) {
+    renderAnnouncements(defaultAnnouncements);
+    return;
+  }
+  try {
+    const res = await fetch(SHEETS_CONFIG.announceUrl);
+    const csv = await res.text();
+    const rows = csv.trim().split('\n').slice(1);
+    const data = rows.map(row => {
+      const [date, type, title, desc, amount, due] = row.split(',').map(s => s.trim().replace(/"/g,''));
+      return { date, type, title, desc, amount, due };
+    });
+    renderAnnouncements(data);
+  } catch(e) {
+    renderAnnouncements(defaultAnnouncements);
+  }
+}
+
+/* ════════════════════════════════
+   PAGE NAVIGATION
+════════════════════════════════ */
+const pages = ['home','available','rooms','news','booking','maint','contact'];
+
+function showPage(id) {
+  pages.forEach(p => {
+    document.getElementById(p).classList.toggle('active', p === id);
+    const nav = document.getElementById('nav-' + p);
+    if (nav) nav.classList.toggle('active', p === id);
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  return false;
+}
+
+function toggleMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+function submitForm(e) {
+  e.preventDefault();
+  const form = e.target;
+  const inputs = form.querySelectorAll('input, select, textarea');
+  const labels = form.querySelectorAll('label');
+  const page = form.closest('section');
+  const isBooking = page && page.id === 'booking';
+
+  // สร้างข้อความจากข้อมูลในฟอร์ม
+  let msg = isBooking ? '📅 นัดชมห้องพัก\n' : '🔧 แจ้งซ่อม\n';
+  msg += '─────────────────\n';
+
+  labels.forEach(label => {
+    const field = label.nextElementSibling;
+    if (!field) return;
+    if (field.type === 'file') return;
+    const val = field.value.trim();
+    if (!val) return;
+    const labelText = label.textContent.replace('*','').trim();
+    msg += `${labelText}: ${val}\n`;
+  });
+
+  msg += '─────────────────\n';
+  msg += 'ส่งจากเว็บไซต์หอพักลุงฟุ้ง';
+
+  // เปิด LINE OA พร้อมข้อความ
+  const lineUrl = 'https://line.me/R/oaMessage/@2009932183?text=' + encodeURIComponent(msg);
+  window.open(lineUrl, '_blank');
+
+  form.reset();
+  const toast = document.getElementById('toast');
+  toast.textContent = '✅ กำลังเปิด LINE...';
+  toast.style.display = 'block';
+  setTimeout(() => { toast.style.display = 'none'; }, 3000);
+}
+
+function updateFileLabel(input) {
+  const label = document.getElementById('fileLabel');
+  if (input.files.length > 0) {
+    label.innerHTML = '✅ เลือกแล้ว: <strong>' + Array.from(input.files).map(f=>f.name).join(', ') + '</strong>';
+  }
+}
+
+document.querySelectorAll('a[href="#"]').forEach(a => {
+  a.addEventListener('click', e => e.preventDefault());
+});
+
+/* ════ INIT ════ */
+loadRoomsFromSheets();
+loadAnnouncementsFromSheets();
+</script>
+</body>
+</html>
