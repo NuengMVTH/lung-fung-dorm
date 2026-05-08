@@ -687,9 +687,9 @@
    Type: fan | ac
 ══════════════════════════════════════════════════════ */
 const SHEETS_CONFIG = {
-  roomsUrl: '',       // วาง URL CSV ของ sheet "Rooms" ที่นี่
-  announceUrl: '',    // วาง URL CSV ของ sheet "Announcements" ที่นี่
-  useSheets: false,   // เปลี่ยนเป็น true เมื่อใส่ URL แล้ว
+  roomsUrl: 'https://docs.google.com/spreadsheets/d/1DD9haRLEK-fauZWy1-iNFwlCABm0U8xvPaGRdXvxFa8/gviz/tq?tqx=out:csv&sheet=%E0%B8%AB%E0%B8%AD%E0%B8%9E%E0%B8%B1%E0%B8%81%E0%B8%A5%E0%B8%B8%E0%B8%87%E0%B8%9F%E0%B8%B8%E0%B9%89%E0%B8%87',
+  announceUrl: '',
+  useSheets: true,
 };
 
 /* ══ ข้อมูลห้อง 14 ห้อง (Default — แก้ได้ หรือใช้ Google Sheets) ══ */
@@ -884,9 +884,9 @@ async function loadRoomsFromSheets() {
     const res = await fetch(SHEETS_CONFIG.roomsUrl);
     const csv = await res.text();
     const rows = csv.trim().split('\n').slice(1);
-    allRooms = rows.map(row => {
-      const [no, floor, type, status, price, note] = row.split(',').map(s => s.trim().replace(/"/g,''));
-      return { no, floor: parseInt(floor), type, status, price: parseInt(price), note: note || '' };
+    allRooms = rows.filter(r => r.trim()).map(row => {
+      const [no, zone, type, status, price, note] = row.split(',').map(s => s.trim().replace(/"/g,''));
+      return { no, zone, type, status, price: parseInt(price), note: note || '' };
     });
     renderRooms(allRooms);
   } catch(e) {
