@@ -50,7 +50,7 @@
 
     /* ── Hero ── */
     .hero { background: linear-gradient(135deg, #2d5a3a 0%, var(--green) 60%, #7ab890 100%); color: var(--white); padding: 4rem 1rem 3rem; text-align: center; position: relative; overflow: hidden; }
-    .hero::before { content: ''; position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E"); }
+    .hero::before { content: ''; position: absolute; inset: 0; background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E"); pointer-events: none; }
     .hero-logo-circle { width: 110px; height: 110px; border-radius: 50%; background: rgba(255,255,255,.15); border: 3px solid rgba(255,255,255,.4); display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem; font-size: 4rem; backdrop-filter: blur(4px); }
     .hero h1 { font-size: clamp(2rem, 6vw, 3rem); font-weight: 700; margin-bottom: .4rem; text-shadow: 0 2px 8px rgba(0,0,0,.2); }
     .hero-sub { font-size: clamp(.95rem, 3vw, 1.2rem); opacity: .92; margin-bottom: .6rem; font-weight: 300; }
@@ -503,6 +503,18 @@
       <p style="font-size:.8rem;color:var(--text-light);margin-top:.75rem">* เงินมัดจำคืนเมื่อออกห้องตามเงื่อนไข</p>
     </div>
   </div>
+
+  <div style="max-width:640px;margin:0 auto;padding:0 1rem 3rem;">
+    <div style="background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:1.5rem;border:1px solid var(--beige-dark);">
+      <h3 style="font-size:1rem;font-weight:700;color:var(--green-dark);margin-bottom:1rem">⏰ กำหนดชำระเงิน</h3>
+      <div style="display:flex;flex-direction:column;gap:.5rem;font-size:.9rem;">
+        <div class="cost-row" style="background:var(--green-pale)"><span>📅 ค่าเช่าห้อง</span><span style="font-weight:600">วันที่ 1–5 ของทุกเดือน</span></div>
+        <div class="cost-row"><span>💧 ค่าน้ำ</span><span style="font-weight:600">วันที่ 5 ของทุกเดือน</span></div>
+        <div class="cost-row"><span>⚡ ค่าไฟ</span><span style="font-weight:600">วันที่ 5 ของทุกเดือน</span></div>
+      </div>
+      <p style="font-size:.8rem;color:var(--text-light);margin-top:.75rem">* รับชำระ: เงินสด / โอนพร้อมเพย์</p>
+    </div>
+  </div>
 </section>
 
 <!-- ════════════════════════════════
@@ -633,7 +645,7 @@
       <div class="contact-icon">📍</div>
       <h3>ที่ตั้ง</h3>
       <p>ใกล้มหาวิทยาลัย<br>ห่าง 500 เมตร</p>
-      <a href="https://maps.google.com" class="btn btn-brown btn-full" target="_blank">🗺️ Google Maps</a>
+      <a href="https://maps.app.goo.gl/ziJcikV7UMZ1fsqN7" class="btn btn-brown btn-full" target="_blank">🗺️ Google Maps</a>
     </div>
     <div class="contact-card">
       <div class="contact-icon">⏰</div>
@@ -643,17 +655,6 @@
     </div>
   </div>
 
-  <div style="max-width:640px;margin:0 auto;padding:0 1rem 3rem;">
-    <div style="background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:1.5rem;border:1px solid var(--beige-dark);">
-      <h3 style="font-size:1rem;font-weight:700;color:var(--green-dark);margin-bottom:1rem">⏰ กำหนดชำระเงิน</h3>
-      <div style="display:flex;flex-direction:column;gap:.5rem;font-size:.9rem;">
-        <div class="cost-row" style="background:var(--green-pale)"><span>📅 ค่าเช่าห้อง</span><span style="font-weight:600">วันที่ 1–5 ของทุกเดือน</span></div>
-        <div class="cost-row"><span>💧 ค่าน้ำ</span><span style="font-weight:600">วันที่ 5 ของทุกเดือน</span></div>
-        <div class="cost-row"><span>⚡ ค่าไฟ</span><span style="font-weight:600">วันที่ 5 ของทุกเดือน</span></div>
-      </div>
-      <p style="font-size:.8rem;color:var(--text-light);margin-top:.75rem">* รับชำระ: เงินสด / โอนพร้อมเพย์</p>
-    </div>
-  </div>
 </section>
 
 <!-- Footer -->
