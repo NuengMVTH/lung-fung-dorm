@@ -250,6 +250,11 @@
     .line-float { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 500; background: #06C755; color: #fff; width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: 0 4px 16px rgba(6,199,85,.4); text-decoration: none; transition: transform .2s; }
     .line-float:hover { transform: scale(1.1); }
 
+    /* ── Back Button ── */
+    .btn-back { display: none; align-items: center; gap: .3rem; background: var(--beige-dark); border: none; border-radius: 8px; padding: .35rem .8rem; font-size: .85rem; font-weight: 600; color: var(--text); cursor: pointer; font-family: inherit; transition: background .15s, color .15s; white-space: nowrap; }
+    .btn-back:hover { background: var(--green-light); color: var(--green-dark); }
+    .btn-back.visible { display: flex; }
+
     /* ── Feature Modal ── */
     .feat-modal-overlay { display: none; position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,.82); align-items: center; justify-content: center; }
     .feat-modal-overlay.open { display: flex; }
@@ -306,6 +311,7 @@
 <nav>
   <div class="nav-inner">
     <a href="#" class="nav-logo" onclick="showPage('home')"><img src="logo.png" alt="หอพักลุงฟุ้ง" style="height:44px;width:auto;object-fit:contain;"> หอพักลุงฟุ้ง</a>
+    <button class="btn-back" id="btnBack" onclick="goBack()">← ย้อนกลับ</button>
     <div class="nav-links">
       <a href="#" onclick="showPage('home')"      id="nav-home"      class="active">หน้าหลัก</a>
       <a href="#" onclick="showPage('available')" id="nav-available">🔑 ห้องว่าง</a>
@@ -907,15 +913,26 @@ async function loadAnnouncementsFromSheets() {
    PAGE NAVIGATION
 ════════════════════════════════ */
 const pages = ['home','available','rooms','news','booking','maint','contact'];
+const pageHistory = [];
+let _activePage = 'home';
 
-function showPage(id) {
+function showPage(id, isBack = false) {
+  if (!isBack && _activePage !== id) pageHistory.push(_activePage);
+  _activePage = id;
   pages.forEach(p => {
     document.getElementById(p).classList.toggle('active', p === id);
     const nav = document.getElementById('nav-' + p);
     if (nav) nav.classList.toggle('active', p === id);
   });
   window.scrollTo({ top: 0, behavior: 'smooth' });
+  const btn = document.getElementById('btnBack');
+  if (btn) btn.classList.toggle('visible', pageHistory.length > 0);
   return false;
+}
+
+function goBack() {
+  if (!pageHistory.length) return;
+  showPage(pageHistory.pop(), true);
 }
 
 function toggleMenu() {
