@@ -131,13 +131,13 @@
     ══════════════════════════════ */
     .lightbox-overlay {
       display: none; position: fixed; inset: 0; z-index: 1000;
-      background: rgba(0,0,0,.85); align-items: center; justify-content: center;
+      background: rgba(0,0,0,.85); align-items: center; justify-content: center; padding: 1rem;
     }
     .lightbox-overlay.open { display: flex; }
     .lightbox-box {
-      background: var(--white); border-radius: 16px; max-width: 640px; width: 90%;
-      max-height: 90vh; overflow-y: auto; padding: 1.5rem;
-      position: relative; animation: lbIn .2s ease;
+      background: var(--white); border-radius: 16px; max-width: 640px; width: 100%;
+      max-height: 90vh; overflow-y: auto; overflow-x: hidden; padding: 1.25rem;
+      position: relative; animation: lbIn .2s ease; box-sizing: border-box;
     }
     @keyframes lbIn { from { opacity: 0; transform: scale(.94); } to { opacity: 1; transform: scale(1); } }
     .lightbox-close { position: absolute; top: .75rem; right: .75rem; background: var(--beige-dark); border: none; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; }
@@ -256,15 +256,15 @@
     .btn-back.visible { display: flex; }
 
     /* ── Feature Modal ── */
-    .feat-modal-overlay { display: none; position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,.82); align-items: center; justify-content: center; }
+    .feat-modal-overlay { display: none; position: fixed; inset: 0; z-index: 1000; background: rgba(0,0,0,.82); align-items: center; justify-content: center; padding: 1rem; }
     .feat-modal-overlay.open { display: flex; }
-    .feat-modal-box { background: var(--white); border-radius: 16px; max-width: 460px; width: 92%; padding: 1.5rem; position: relative; animation: lbIn .2s ease; }
-    .feat-mockup-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: .75rem; margin: 1rem 0; }
-    .feat-mockup-card { border-radius: 10px; aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .4rem; padding: .5rem; }
-    .feat-mockup-card .fmc-icon { font-size: 2.6rem; line-height: 1; }
-    .feat-mockup-card .fmc-label { font-size: .75rem; font-weight: 600; text-align: center; }
-    .feat-desc-box { background: var(--green-pale); border: 1px solid var(--green-light); border-radius: 10px; padding: .85rem 1rem; }
-    .feat-desc-box p { color: var(--text); font-size: .95rem; line-height: 1.5; }
+    .feat-modal-box { background: var(--white); border-radius: 16px; max-width: 460px; width: 100%; padding: 1.25rem; position: relative; animation: lbIn .2s ease; overflow: hidden; box-sizing: border-box; }
+    .feat-mockup-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: .4rem; margin: .75rem 0; }
+    .feat-mockup-card { border-radius: 10px; aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .3rem; padding: .4rem; }
+    .feat-mockup-card .fmc-icon { font-size: 2.2rem; line-height: 1; }
+    .feat-mockup-card .fmc-label { font-size: .72rem; font-weight: 600; text-align: center; }
+    .feat-desc-box { background: var(--green-pale); border: 1px solid var(--green-light); border-radius: 10px; padding: .75rem .9rem; }
+    .feat-desc-box p { color: var(--text); font-size: .92rem; line-height: 1.5; }
     .feat-price-badge { display: inline-block; background: var(--brown); color: #fff; border-radius: 50px; padding: .3rem .9rem; font-size: .88rem; font-weight: 700; margin-top: .6rem; }
   </style>
 </head>
