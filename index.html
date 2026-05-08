@@ -68,7 +68,8 @@
     /* ── Features ── */
     .features { background: var(--white); padding: 2rem 1rem; border-bottom: 2px solid var(--beige-dark); }
     .features-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; }
-    .feature-item { text-align: center; padding: 1.2rem .75rem; border-radius: var(--radius); background: var(--green-pale); border: 1px solid var(--green-light); }
+    .feature-item { text-align: center; padding: 1.2rem .75rem; border-radius: var(--radius); background: var(--green-pale); border: 1px solid var(--green-light); cursor: pointer; transition: transform .15s, box-shadow .15s; }
+    .feature-item:hover { transform: translateY(-3px); box-shadow: 0 4px 16px rgba(79,138,98,.2); background: var(--green-light); }
     .feature-icon { font-size: 2rem; margin-bottom: .5rem; }
     .feature-title { font-size: .9rem; font-weight: 600; color: var(--green-dark); }
     .feature-desc { font-size: .8rem; color: var(--text-light); margin-top: .2rem; }
@@ -327,12 +328,12 @@
 
   <div class="features">
     <div class="features-grid">
-      <div class="feature-item"><div class="feature-icon">🔒</div><div class="feature-title">ปลอดภัย</div><div class="feature-desc">กล้องวงจรปิด</div></div>
-      <div class="feature-item"><div class="feature-icon">📶</div><div class="feature-title">Wi-Fi ฟรี</div><div class="feature-desc">ความเร็วสูง</div></div>
-      <div class="feature-item"><div class="feature-icon">🧺</div><div class="feature-title">ซักรีด</div><div class="feature-desc">หยอดเหรียญ 24 ชม.</div></div>
-      <div class="feature-item"><div class="feature-icon">🚗</div><div class="feature-title">ที่จอดรถ</div><div class="feature-desc">รถยนต์ & มอเตอร์ไซค์</div></div>
-      <div class="feature-item"><div class="feature-icon">🧹</div><div class="feature-title">สะอาด</div><div class="feature-desc">ทำความสะอาดทุกวัน</div></div>
-      <div class="feature-item"><div class="feature-icon">🔧</div><div class="feature-title">แจ้งซ่อมด่วน</div><div class="feature-desc">ช่างตอบสนองเร็ว</div></div>
+      <div class="feature-item" onclick="showPage('rooms')"><div class="feature-icon">🔒</div><div class="feature-title">ปลอดภัย</div><div class="feature-desc">กล้องวงจรปิด</div></div>
+      <div class="feature-item" onclick="showPage('rooms')"><div class="feature-icon">📶</div><div class="feature-title">Wi-Fi ฟรี</div><div class="feature-desc">ความเร็วสูง</div></div>
+      <div class="feature-item" onclick="showPage('rooms')"><div class="feature-icon">🧺</div><div class="feature-title">ซักรีด</div><div class="feature-desc">หยอดเหรียญ 24 ชม.</div></div>
+      <div class="feature-item" onclick="showPage('rooms')"><div class="feature-icon">🚗</div><div class="feature-title">ที่จอดรถ</div><div class="feature-desc">รถยนต์ & มอเตอร์ไซค์</div></div>
+      <div class="feature-item" onclick="showPage('rooms')"><div class="feature-icon">🧹</div><div class="feature-title">สะอาด</div><div class="feature-desc">ทำความสะอาดทุกวัน</div></div>
+      <div class="feature-item" onclick="showPage('maint')"><div class="feature-icon">🔧</div><div class="feature-title">แจ้งซ่อมด่วน</div><div class="feature-desc">ช่างตอบสนองเร็ว</div></div>
     </div>
   </div>
 
