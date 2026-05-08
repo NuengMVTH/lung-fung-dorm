@@ -450,7 +450,7 @@
       <div class="rtype-body">
         <div class="rtype-name">ห้องพักพัดลม (Standard)</div>
         <div class="rtype-price">2,800 – 3,200 <small>บาท / เดือน</small></div>
-        <div style="font-size:.8rem;color:var(--text-light);margin-top:.2rem">ขนาด 24–28 ตร.ม. | ชั้น 1, 3</div>
+        <div style="font-size:.8rem;color:var(--text-light);margin-top:.2rem">ขนาด 24–28 ตร.ม. | โซนด้านซ้าย</div>
         <div class="cost-rows">
           <div class="cost-row"><span style="color:var(--text-light)">💧 ค่าน้ำ</span><span style="font-weight:600">18 บาท/หน่วย</span></div>
           <div class="cost-row"><span style="color:var(--text-light)">⚡ ค่าไฟ</span><span style="font-weight:600">7 บาท/หน่วย</span></div>
@@ -474,7 +474,7 @@
       <div class="rtype-body">
         <div class="rtype-name">ห้องพักแอร์ (Premium)</div>
         <div class="rtype-price">4,200 – 4,800 <small>บาท / เดือน</small></div>
-        <div style="font-size:.8rem;color:var(--text-light);margin-top:.2rem">ขนาด 28–35 ตร.ม. | ชั้น 2, 3, 4</div>
+        <div style="font-size:.8rem;color:var(--text-light);margin-top:.2rem">ขนาด 28–35 ตร.ม. | ทั้งสองโซน</div>
         <div class="cost-rows">
           <div class="cost-row"><span style="color:var(--text-light)">💧 ค่าน้ำ</span><span style="font-weight:600">18 บาท/หน่วย</span></div>
           <div class="cost-row"><span style="color:var(--text-light)">⚡ ค่าไฟ</span><span style="font-weight:600">7 บาท/หน่วย</span></div>
@@ -694,20 +694,20 @@ const SHEETS_CONFIG = {
 
 /* ══ ข้อมูลห้อง 14 ห้อง (Default — แก้ได้ หรือใช้ Google Sheets) ══ */
 const defaultRooms = [
-  { no:'1',  floor:1, type:'fan', status:'occupied',  price:2800, note:'ติดทางเข้า' },
-  { no:'2',  floor:1, type:'fan', status:'available', price:2800, note:'ติดลาน' },
-  { no:'3',  floor:1, type:'fan', status:'occupied',  price:3000, note:'ห้องมุม' },
-  { no:'4',  floor:1, type:'fan', status:'available', price:3000, note:'' },
-  { no:'5',  floor:2, type:'ac',  status:'occupied',  price:4200, note:'' },
-  { no:'6',  floor:2, type:'ac',  status:'occupied',  price:4200, note:'' },
-  { no:'7',  floor:2, type:'ac',  status:'available', price:4500, note:'ห้องมุม วิวดี' },
-  { no:'8',  floor:2, type:'ac',  status:'reserved',  price:4200, note:'จอง พ.ค.' },
-  { no:'9',  floor:3, type:'fan', status:'occupied',  price:3200, note:'' },
-  { no:'10', floor:3, type:'ac',  status:'available', price:4800, note:'ชั้นสูง เงียบ' },
-  { no:'11', floor:3, type:'fan', status:'occupied',  price:3000, note:'' },
-  { no:'12', floor:3, type:'ac',  status:'available', price:4800, note:'' },
-  { no:'13', floor:4, type:'ac',  status:'occupied',  price:4200, note:'' },
-  { no:'14', floor:4, type:'ac',  status:'available', price:4800, note:'ชั้นสูงสุด ลม' },
+  { no:'1',  zone:'left',  type:'fan', status:'occupied',  price:2800, note:'ติดทางเข้า' },
+  { no:'2',  zone:'left',  type:'fan', status:'available', price:2800, note:'ติดลาน' },
+  { no:'3',  zone:'left',  type:'fan', status:'occupied',  price:3000, note:'ห้องมุม' },
+  { no:'4',  zone:'left',  type:'fan', status:'available', price:3000, note:'' },
+  { no:'5',  zone:'left',  type:'ac',  status:'occupied',  price:4200, note:'' },
+  { no:'6',  zone:'left',  type:'ac',  status:'occupied',  price:4200, note:'' },
+  { no:'7',  zone:'left',  type:'ac',  status:'available', price:4500, note:'ห้องมุม' },
+  { no:'8',  zone:'right', type:'ac',  status:'reserved',  price:4200, note:'จอง พ.ค.' },
+  { no:'9',  zone:'right', type:'fan', status:'occupied',  price:3200, note:'' },
+  { no:'10', zone:'right', type:'ac',  status:'available', price:4800, note:'' },
+  { no:'11', zone:'right', type:'fan', status:'occupied',  price:3000, note:'' },
+  { no:'12', zone:'right', type:'ac',  status:'available', price:4800, note:'' },
+  { no:'13', zone:'right', type:'ac',  status:'occupied',  price:4200, note:'' },
+  { no:'14', zone:'right', type:'ac',  status:'available', price:4800, note:'' },
 ];
 
 /* ══ ประกาศ (Default) ══ */
@@ -754,18 +754,22 @@ const roomMockups = [
 ════════════════════════════════ */
 function renderRooms(rooms) {
   const container = document.getElementById('roomsByFloor');
-  const floors = [...new Set(rooms.map(r => r.floor))].sort();
+  const zones = [
+    { key: 'left',  label: '◀ โซนด้านซ้าย' },
+    { key: 'right', label: 'โซนด้านขวา ▶' },
+  ];
   const available = rooms.filter(r => r.status === 'available').length;
   document.getElementById('lastUpdated').textContent =
     `ห้องว่าง ${available} จาก ${rooms.length} ห้อง • อัพเดต ${new Date().toLocaleDateString('th-TH')}`;
 
-  container.innerHTML = floors.map(floor => {
-    const floorRooms = rooms.filter(r => r.floor === floor);
+  container.innerHTML = zones.map(z => {
+    const zoneRooms = rooms.filter(r => r.zone === z.key);
+    if (!zoneRooms.length) return '';
     return `
       <div class="floor-section">
-        <div class="floor-label">🏢 ชั้น ${floor}</div>
+        <div class="floor-label">🏠 ${z.label}</div>
         <div class="room-grid">
-          ${floorRooms.map(r => renderRoomCard(r)).join('')}
+          ${zoneRooms.map(r => renderRoomCard(r)).join('')}
         </div>
       </div>`;
   }).join('');
@@ -824,7 +828,7 @@ function openLightbox(roomNo) {
 
   document.getElementById('lbInfo').innerHTML = `
     <div class="info-row"><span class="label">เลขห้อง</span><span class="val">ห้อง ${r.no}</span></div>
-    <div class="info-row"><span class="label">ชั้น</span><span class="val">ชั้น ${r.floor}</span></div>
+    <div class="info-row"><span class="label">โซน</span><span class="val">${r.zone === 'left' ? 'โซนด้านซ้าย' : 'โซนด้านขวา'}</span></div>
     <div class="info-row"><span class="label">ประเภท</span><span class="val">${t.icon} ${t.label}</span></div>
     <div class="info-row"><span class="label">ราคา/เดือน</span><span class="val" style="color:var(--brown);font-size:1.1rem">${r.price.toLocaleString()} บาท</span></div>
     <div class="info-row"><span class="label">สถานะ</span><span class="val">${s}</span></div>
