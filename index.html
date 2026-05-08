@@ -344,12 +344,12 @@
     <div class="container">
       <div class="hero-logo-circle"><img src="logo.png" alt="หอพักลุงฟุ้ง" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div>
       <h1>หอพักลุงฟุ้ง</h1>
-      <p class="hero-sub">อยู่สบาย ใจดี เหมือนอยู่บ้านตา</p>
+      <p class="hero-sub">อยู่สบาย ใจดี เหมือนอยู่บ้านลุง</p>
       <div class="hero-tagline">✨ อบอุ่น ปลอดภัย เหมือนบ้าน — 14 ห้อง</div>
       <div class="hero-btns">
-        <button class="btn btn-white btn-lg" onclick="showPage('available')">🔑 ดูห้องว่าง</button>
+        <a href="#" class="btn btn-white btn-lg" onclick="showPage('available');return false;">🔑 ดูห้องว่าง</a>
         <a href="https://line.me/R/ti/p/@158pickj" class="btn btn-line btn-lg" target="_blank">💬 Add LINE OA</a>
-        <button class="btn btn-lg" style="background:rgba(255,255,255,.2);color:#fff;border:2px solid rgba(255,255,255,.5)" onclick="showPage('news')">📢 ข่าวสาร & บิล</button>
+        <a href="#" class="btn btn-lg" style="background:rgba(255,255,255,.2);color:#fff;border:2px solid rgba(255,255,255,.5)" onclick="showPage('news');return false;">📢 ข่าวสาร & บิล</a>
       </div>
     </div>
   </div>
@@ -359,7 +359,7 @@
       <div class="feature-item" onclick="showPage('rooms')"><div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="36" height="36"><rect x="8" y="5" width="12" height="5" rx="2.5" fill="#4f8a62"/><line x1="14" y1="10" x2="14" y2="18" stroke="#4f8a62" stroke-width="3" stroke-linecap="round"/><rect x="4" y="18" width="26" height="11" rx="4" fill="#4f8a62"/><circle cx="28" cy="23.5" r="5.5" fill="#3a6644"/><circle cx="28" cy="23.5" r="3" fill="#1a3322"/><circle cx="26.5" cy="22" r="1" fill="rgba(255,255,255,.4)"/><circle cx="7" cy="25" r="1.5" fill="#22c55e"/></svg></div><div class="feature-title">ปลอดภัย</div><div class="feature-desc">กล้องวงจรปิด</div></div>
       <div class="feature-item" onclick="showPage('rooms')"><div class="feature-icon">📶</div><div class="feature-title">Wi-Fi ฟรี</div><div class="feature-desc">ความเร็วสูง</div></div>
       <div class="feature-item" onclick="openFeatModal('laundry')"><div class="feature-icon">🧺</div><div class="feature-title">ซักรีด</div><div class="feature-desc">หยอดเหรียญ 24 ชม.</div></div>
-      <div class="feature-item" onclick="showPage('rooms')"><div class="feature-icon">🏍️</div><div class="feature-title">ที่จอดรถ</div><div class="feature-desc">มอเตอร์ไซค์</div></div>
+      <div class="feature-item" onclick="openFeatModal('parking')"><div class="feature-icon">🏍️</div><div class="feature-title">ที่จอดรถ</div><div class="feature-desc">มอเตอร์ไซค์</div></div>
       <div class="feature-item" onclick="openFeatModal('clean')"><div class="feature-icon">🧹</div><div class="feature-title">สะอาด</div><div class="feature-desc">ทำความสะอาดทุกวัน</div></div>
       <div class="feature-item" onclick="showPage('maint')"><div class="feature-icon">🔧</div><div class="feature-title">แจ้งซ่อมด่วน</div><div class="feature-desc">ช่างตอบสนองเร็ว</div></div>
     </div>
@@ -1012,6 +1012,16 @@ const featData = {
       { icon: '🧹', bg: '#ede9fe', color: '#5b21b6', label: 'ทำความสะอาด' },
     ],
     desc: 'ทำความสะอาดพื้นที่ส่วนกลางทุกวัน บรรยากาศดี น่าอยู่',
+    price: null,
+  },
+  parking: {
+    title: '🏍️ ที่จอดรถมอเตอร์ไซค์',
+    items: [
+      { icon: '🏍️', bg: '#dbeafe', color: '#1e40af', label: 'มอเตอร์ไซค์' },
+      { icon: '🏠', bg: '#fef3c7', color: '#92400e', label: 'หน้าบ้าน' },
+      { icon: '🅿️', bg: '#d1fae5', color: '#166534', label: 'ลานจอดรถ' },
+    ],
+    desc: 'ที่จอดรถมอเตอร์ไซค์ หน้าบ้านและลานจอดกว้างขวาง ปลอดภัย มีกล้องวงจรปิด',
     price: null,
   },
 };
