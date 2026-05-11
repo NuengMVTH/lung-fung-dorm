@@ -954,40 +954,70 @@ function toggleMenu() {
   document.getElementById('mobileMenu').classList.toggle('open');
 }
 
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbwudHpAQZB7ZRLiy5qFvV_C5Hm9tYbntUYSir0s5soStvg0FdZ6yCvHFowQBMLzSOYpPg/exec';
+
 function submitForm(e) {
   e.preventDefault();
   const form = e.target;
   const inputs = form.querySelectorAll('input, select, textarea');
-  const labels = form.querySelectorAll('label');
   const page = form.closest('section');
   const isBooking = page && page.id === 'booking';
 
-  // สร้างข้อความจากข้อมูลในฟอร์ม
-  let msg = isBooking ? '📅 นัดชมห้องพัก\n' : '🔧 แจ้งซ่อม\n';
-  msg += '─────────────────\n';
+  if (isBooking) {
+    const data = {
+      name:     inputs[0].value.trim(),
+      phone:    inputs[1].value.trim(),
+      lineId:   inputs[2].value.trim(),
+      date:     inputs[3].value,
+      time:     inputs[4].value,
+      roomType: inputs[5].value,
+      people:   inputs[6].value,
+      note:     inputs[7] ? inputs[7].value.trim() : ''
+    };
 
-  labels.forEach(label => {
-    const field = label.nextElementSibling;
-    if (!field) return;
-    if (field.type === 'file') return;
-    const val = field.value.trim();
-    if (!val) return;
-    const labelText = label.textContent.replace('*','').trim();
-    msg += `${labelText}: ${val}\n`;
-  });
+    const btn = form.querySelector('button[type=submit]');
+    const origText = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '⏳ กำลังส่ง...';
 
-  msg += '─────────────────\n';
-  msg += 'ส่งจากเว็บไซต์หอพักลุงฟุ้ง';
+    fetch(GAS_URL, { method: 'POST', body: JSON.stringify(data) })
+      .then(r => r.json())
+      .then(() => {
+        form.reset();
+        btn.disabled = false;
+        btn.innerHTML = origText;
+        showToast('✅ ส่งข้อมูลแล้ว! ลุงฟุ้งจะติดต่อกลับเร็วๆ นี้ 📱');
+      })
+      .catch(() => {
+        btn.disabled = false;
+        btn.innerHTML = origText;
+        const msg = `📅 นัดชมห้องพัก\nชื่อ: ${data.name}\nโทร: ${data.phone}\nวันที่: ${data.date} ${data.time}`;
+        window.open('https://line.me/R/oaMessage/@158pickj?text=' + encodeURIComponent(msg), '_blank');
+        showToast('✅ กำลังเปิด LINE...');
+      });
 
-  // เปิด LINE OA พร้อมข้อความ
-  const lineUrl = 'https://line.me/R/oaMessage/@158pickj?text=' + encodeURIComponent(msg);
-  window.open(lineUrl, '_blank');
+  } else {
+    const labels = form.querySelectorAll('label');
+    let msg = '🔧 แจ้งซ่อม\n─────────────────\n';
+    labels.forEach(label => {
+      const field = label.nextElementSibling;
+      if (!field || field.type === 'file') return;
+      const val = field.value.trim();
+      if (!val) return;
+      msg += label.textContent.replace('*','').trim() + ': ' + val + '\n';
+    });
+    msg += '─────────────────\nส่งจากเว็บไซต์หอพักลุงฟุ้ง';
+    window.open('https://line.me/R/oaMessage/@158pickj?text=' + encodeURIComponent(msg), '_blank');
+    form.reset();
+    showToast('✅ กำลังเปิด LINE...');
+  }
+}
 
-  form.reset();
+function showToast(msg) {
   const toast = document.getElementById('toast');
-  toast.textContent = '✅ กำลังเปิด LINE...';
+  toast.textContent = msg;
   toast.style.display = 'block';
-  setTimeout(() => { toast.style.display = 'none'; }, 3000);
+  setTimeout(() => { toast.style.display = 'none'; }, 4000);
 }
 
 function updateFileLabel(input) {
