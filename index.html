@@ -954,7 +954,7 @@ function toggleMenu() {
   document.getElementById('mobileMenu').classList.toggle('open');
 }
 
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbwudHpAQZB7ZRLiy5qFvV_C5Hm9tYbntUYSir0s5soStvg0FdZ6yCvHFowQBMLzSOYpPg/exec';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycby0mW-Ohagw5VDrUTojl8hqFnroFVDKWxokheoGu5rg-S2aeFUl-ZaqckpmjKdSUHVl7g/exec';
 
 function submitForm(e) {
   e.preventDefault();
@@ -997,19 +997,37 @@ function submitForm(e) {
       });
 
   } else {
-    const labels = form.querySelectorAll('label');
-    let msg = '🔧 แจ้งซ่อม\n─────────────────\n';
-    labels.forEach(label => {
-      const field = label.nextElementSibling;
-      if (!field || field.type === 'file') return;
-      const val = field.value.trim();
-      if (!val) return;
-      msg += label.textContent.replace('*','').trim() + ': ' + val + '\n';
-    });
-    msg += '─────────────────\nส่งจากเว็บไซต์หอพักลุงฟุ้ง';
-    window.open('https://line.me/R/oaMessage/@158pickj?text=' + encodeURIComponent(msg), '_blank');
-    form.reset();
-    showToast('✅ กำลังเปิด LINE...');
+    const data = {
+      type:    'maint',
+      room:    inputs[0].value.trim(),
+      name:    inputs[1].value.trim(),
+      phone:   inputs[2].value.trim(),
+      issue:   inputs[3].value,
+      detail:  inputs[4].value.trim(),
+      urgency: inputs[6] ? inputs[6].value : 'ปกติ'
+    };
+
+    const btn = form.querySelector('button[type=submit]');
+    const origText = btn.innerHTML;
+    btn.disabled = true;
+    btn.innerHTML = '⏳ กำลังส่ง...';
+
+    fetch(GAS_URL, { method: 'POST', body: JSON.stringify(data) })
+      .then(r => r.json())
+      .then(() => {
+        form.reset();
+        document.getElementById('fileLabel').innerHTML = '<strong>คลิกเพื่อเลือกรูป</strong> หรือลากมาวางที่นี่<br>JPG, PNG ขนาดไม่เกิน 5MB';
+        btn.disabled = false;
+        btn.innerHTML = origText;
+        showToast('✅ ส่งคำขอซ่อมแล้ว! ลุงฟุ้งจะติดต่อกลับเร็วๆ นี้ 🔧');
+      })
+      .catch(() => {
+        btn.disabled = false;
+        btn.innerHTML = origText;
+        const msg = `🔧 แจ้งซ่อม\nห้อง: ${data.room}\nชื่อ: ${data.name}\nโทร: ${data.phone}\nปัญหา: ${data.issue}\nรายละเอียด: ${data.detail}`;
+        window.open('https://line.me/R/oaMessage/@158pickj?text=' + encodeURIComponent(msg), '_blank');
+        showToast('✅ กำลังเปิด LINE...');
+      });
   }
 }
 
