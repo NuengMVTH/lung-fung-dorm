@@ -991,7 +991,7 @@ function submitForm(e) {
       note:     inputs[7] ? inputs[7].value.trim() : ''
     };
 
-    const btn = form.querySelector('button[type=submit]');
+    const btn = form.querySelector('button');
     const origText = btn.innerHTML;
     btn.disabled = true;
     btn.innerHTML = '⏳ กำลังส่ง...';
@@ -1023,7 +1023,7 @@ function submitForm(e) {
       urgency: inputs[6] ? inputs[6].value : 'ปกติ'
     };
 
-    const btn = form.querySelector('button[type=submit]');
+    const btn = form.querySelector('button');
     const origText = btn.innerHTML;
     btn.disabled = true;
     btn.innerHTML = '⏳ กำลังส่ง...';
