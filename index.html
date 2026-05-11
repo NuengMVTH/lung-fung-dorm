@@ -954,7 +954,26 @@ function toggleMenu() {
   document.getElementById('mobileMenu').classList.toggle('open');
 }
 
-const GAS_URL = 'https://script.google.com/macros/s/AKfycby0mW-Ohagw5VDrUTojl8hqFnroFVDKWxokheoGu5rg-S2aeFUl-ZaqckpmjKdSUHVl7g/exec';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycby48XZoOKd6cj9yShINYe8n5iAZPIZRpIsrIIl-AVb9iyTY24DKCUjs938ytmKyFQ1YCw/exec';
+
+function compressImage(file, maxWidth = 1024) {
+  return new Promise(resolve => {
+    const reader = new FileReader();
+    reader.onload = ev => {
+      const img = new Image();
+      img.onload = () => {
+        let w = img.width, h = img.height;
+        if (w > maxWidth) { h = h * maxWidth / w; w = maxWidth; }
+        const canvas = document.createElement('canvas');
+        canvas.width = w; canvas.height = h;
+        canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+        resolve(canvas.toDataURL('image/jpeg', 0.75).split(',')[1]);
+      };
+      img.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  });
+}
 
 function submitForm(e) {
   e.preventDefault();
@@ -1012,7 +1031,14 @@ function submitForm(e) {
     btn.disabled = true;
     btn.innerHTML = '⏳ กำลังส่ง...';
 
-    fetch(GAS_URL, { method: 'POST', body: JSON.stringify(data) })
+    const fileInput = document.getElementById('fileInput');
+    const file = fileInput && fileInput.files[0];
+
+    (file ? compressImage(file) : Promise.resolve(null))
+      .then(base64 => {
+        if (base64) data.imageBase64 = base64;
+        return fetch(GAS_URL, { method: 'POST', body: JSON.stringify(data) });
+      })
       .then(r => r.json())
       .then(() => {
         form.reset();
