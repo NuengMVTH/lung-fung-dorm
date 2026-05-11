@@ -416,10 +416,7 @@
       <div class="legend-dot"><div class="dot dot-occupied"></div>ไม่ว่าง</div>
       <div class="legend-dot"><div class="dot dot-reserved"></div>จองแล้ว</div>
     </div>
-    <div>
-      <span class="sheets-badge">📊 เชื่อมต่อ Google Sheets</span>
-      <button onclick="loadRoomsFromSheets()" style="margin-left:.5rem;background:none;border:1px solid var(--green-light);border-radius:50px;padding:.2rem .65rem;font-size:.78rem;cursor:pointer;color:var(--green-dark);font-family:inherit;">🔄 รีเฟรช</button>
-    </div>
+    <div></div>
   </div>
 
   <div id="roomsByFloor"></div>
@@ -571,7 +568,7 @@
           </div>
         </div>
         <div class="form-group"><label>ข้อความเพิ่มเติม</label><textarea placeholder="คำถาม หรือข้อสังเกตพิเศษ..."></textarea></div>
-        <button type="submit" class="btn btn-green btn-full btn-lg">📅 ส่งคำขอนัดชม</button>
+        <button type="button" class="btn btn-green btn-full btn-lg" onclick="submitForm({preventDefault:()=>{},target:this.closest('form')})">📅 ส่งคำขอนัดชม</button>
       </form>
     </div>
     <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1rem;justify-content:center;">
@@ -593,7 +590,7 @@
   <div class="form-section">
     <div class="form-notice"><strong>🚨 กรณีเร่งด่วน (น้ำท่วม / ไฟดับ / ประตูเสีย)</strong>LINE OA หรือโทรหาลุงฟุ้งโดยตรง</div>
     <div class="form-card">
-      <form onsubmit="submitForm(event)">
+      <form onsubmit="submitForm(event)" novalidate>
         <div class="form-row">
           <div class="form-group"><label>เลขห้อง <span>*</span></label><input type="text" placeholder="เช่น 201" required /></div>
           <div class="form-group"><label>ชื่อผู้แจ้ง <span>*</span></label><input type="text" placeholder="ชื่อ-นามสกุล" required /></div>
@@ -618,7 +615,7 @@
         <div class="form-group"><label>ความเร่งด่วน</label>
           <select><option>🟢 ปกติ — รอได้ 1-3 วัน</option><option>🟡 ปานกลาง — ภายใน 24 ชม.</option><option>🔴 เร่งด่วน — ต้องการวันนี้</option></select>
         </div>
-        <button type="submit" class="btn btn-brown btn-full btn-lg">🔧 ส่งคำขอซ่อม</button>
+        <button type="button" class="btn btn-brown btn-full btn-lg" onclick="submitForm({preventDefault:()=>{},target:this.closest('form')})">🔧 ส่งคำขอซ่อม</button>
       </form>
     </div>
   </div>
@@ -638,7 +635,7 @@
     <div class="contact-card">
       <div class="contact-icon">💬</div>
       <h3>LINE Official Account</h3>
-      <p>ติดต่อง่าย ตอบไว<br>Channel ID: @158pickj</p>
+      <p>ติดต่อง่าย ตอบไว<br>Line ID: @158pickj</p>
       <a href="https://line.me/R/ti/p/@158pickj" class="btn btn-line btn-full" target="_blank">💬 เพิ่มเพื่อน LINE OA</a>
     </div>
     <div class="contact-card">
