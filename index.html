@@ -246,6 +246,20 @@
     .mt-1 { margin-top: .5rem; } .mt-2 { margin-top: 1rem; }
     .text-center { text-align: center; } .pb-3 { padding-bottom: 3rem; }
 
+    /* ── Admin Page ── */
+    .admin-login-wrap { max-width: 380px; margin: 4rem auto; padding: 0 1rem 3rem; }
+    .admin-panel-wrap { max-width: 900px; margin: 0 auto; padding: 0 1rem 3rem; }
+    .admin-room-card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); padding: .9rem 1.1rem; border: 1px solid var(--beige-dark); display: flex; align-items: center; gap: .75rem; flex-wrap: wrap; }
+    .admin-room-num { font-size: 1.05rem; font-weight: 700; color: var(--green-dark); min-width: 56px; }
+    .admin-room-meta { font-size: .8rem; color: var(--text-light); flex: 1; min-width: 80px; }
+    .admin-status-btns { display: flex; gap: .4rem; flex-wrap: wrap; }
+    .s-btn { padding: .28rem .7rem; border-radius: 50px; border: 2px solid #d9cfc3; font-size: .8rem; font-weight: 600; cursor: pointer; font-family: inherit; background: var(--beige-dark); color: var(--text-light); transition: all .15s; }
+    .s-btn:hover { transform: translateY(-1px); }
+    .s-btn.active-available { background: #dcfce7; color: #15803d; border-color: #86efac; }
+    .s-btn.active-occupied  { background: #fee2e2; color: #b91c1c; border-color: #fca5a5; }
+    .s-btn.active-reserved  { background: #fef3c7; color: #b45309; border-color: #fcd34d; }
+    .admin-saving { font-size: .78rem; color: var(--text-light); white-space: nowrap; }
+
     /* ── LINE floating btn ── */
     .line-float { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 500; background: #06C755; color: #fff; width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: 0 4px 16px rgba(6,199,85,.4); text-decoration: none; transition: transform .2s; }
     .line-float:hover { transform: scale(1.1); }
@@ -654,6 +668,38 @@
 
 </section>
 
+<!-- ════════════════════════════════
+     PAGE: ADMIN
+════════════════════════════════ -->
+<section class="page" id="admin">
+  <div class="section-head">
+    <div class="section-badge">🔐 Admin</div>
+    <h2>จัดการสถานะห้องพัก</h2>
+    <p>สำหรับลุงฟุ้งเท่านั้น</p>
+    <div class="divider"></div>
+  </div>
+
+  <div id="adminLogin" class="admin-login-wrap">
+    <div class="form-card">
+      <div class="form-group">
+        <label>รหัสผ่าน</label>
+        <input type="password" id="adminPinInput" placeholder="ใส่รหัสผ่าน" onkeydown="if(event.key==='Enter')adminLogin()" />
+      </div>
+      <button class="btn btn-green btn-full" onclick="adminLogin()">🔓 เข้าสู่ระบบ</button>
+    </div>
+  </div>
+
+  <div id="adminPanel" style="display:none">
+    <div class="admin-panel-wrap">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem;">
+        <div style="font-size:.85rem;color:var(--text-light)">กดปุ่มสถานะเพื่อเปลี่ยนและบันทึกทันที</div>
+        <button class="btn btn-outline" onclick="loadAdminRooms()" style="font-size:.82rem;padding:.38rem .9rem">↺ โหลดใหม่</button>
+      </div>
+      <div id="adminRoomList" style="display:flex;flex-direction:column;gap:.55rem;"></div>
+    </div>
+  </div>
+</section>
+
 <!-- Footer -->
 <footer>
   <strong>🏡 หอพักลุงฟุ้ง</strong>
@@ -666,7 +712,7 @@
     <a href="#" onclick="showPage('booking')">นัดชมห้อง</a>
     <a href="#" onclick="showPage('contact')">ติดต่อ</a>
   </div>
-  <p style="opacity:.6;font-size:.8rem;margin-top:.5rem">© 2569 หอพักลุงฟุ้ง</p>
+  <p style="opacity:.6;font-size:.8rem;margin-top:.5rem">© 2569 หอพักลุงฟุ้ง &nbsp;·&nbsp; <a href="#" onclick="showPage('admin')" style="color:rgba(255,255,255,.35);font-size:.72rem;text-decoration:none">จัดการ</a></p>
 </footer>
 
 <script>
@@ -924,7 +970,7 @@ async function loadAnnouncementsFromSheets() {
 /* ════════════════════════════════
    PAGE NAVIGATION
 ════════════════════════════════ */
-const pages = ['home','available','rooms','news','booking','maint','contact'];
+const pages = ['home','available','rooms','news','booking','maint','contact','admin'];
 const pageHistory = [];
 let _activePage = 'home';
 
@@ -1149,6 +1195,81 @@ function openFeatModal(type) {
 function closeFeatModal(e) {
   if (!e || e.target === document.getElementById('featModal'))
     document.getElementById('featModal').classList.remove('open');
+}
+
+/* ════════════════════════════════
+   ADMIN
+════════════════════════════════ */
+const ADMIN_PIN = '1234'; // เปลี่ยนรหัสผ่านตรงนี้
+
+function adminLogin() {
+  const input = document.getElementById('adminPinInput');
+  if (input.value === ADMIN_PIN) {
+    document.getElementById('adminLogin').style.display = 'none';
+    document.getElementById('adminPanel').style.display = 'block';
+    loadAdminRooms();
+  } else {
+    showToast('❌ รหัสผ่านไม่ถูกต้อง');
+    input.value = '';
+    input.focus();
+  }
+}
+
+function loadAdminRooms() {
+  const list = document.getElementById('adminRoomList');
+  if (allRooms.length) {
+    renderAdminRoomList();
+  } else {
+    list.innerHTML = '<p style="color:var(--text-light);font-size:.9rem;padding:.5rem 0">กำลังโหลด...</p>';
+    loadRoomsFromSheets().then(() => renderAdminRoomList());
+  }
+}
+
+function renderAdminRoomList() {
+  const list = document.getElementById('adminRoomList');
+  list.innerHTML = allRooms.map(r => {
+    const typeLabel = r.type === 'fan' ? '🌀 พัดลม' : '❄️ แอร์';
+    const zoneLabel = r.zone === 'left' ? 'โซนซ้าย' : 'โซนขวา';
+    return `
+      <div class="admin-room-card" id="adminCard-${r.no}">
+        <div class="admin-room-num">ห้อง ${r.no}</div>
+        <div class="admin-room-meta">${typeLabel} · ${zoneLabel} · ${r.price.toLocaleString()} บ.</div>
+        <div class="admin-status-btns">
+          <button class="s-btn ${r.status === 'available' ? 'active-available' : ''}"
+                  onclick="setRoomStatus('${r.no}','available')">✅ ว่าง</button>
+          <button class="s-btn ${r.status === 'occupied'  ? 'active-occupied'  : ''}"
+                  onclick="setRoomStatus('${r.no}','occupied')">🔴 ไม่ว่าง</button>
+          <button class="s-btn ${r.status === 'reserved'  ? 'active-reserved'  : ''}"
+                  onclick="setRoomStatus('${r.no}','reserved')">🟡 จองแล้ว</button>
+        </div>
+        <div class="admin-saving" id="saving-${r.no}" style="display:none">⏳ กำลังบันทึก...</div>
+      </div>`;
+  }).join('');
+}
+
+function setRoomStatus(roomNo, newStatus) {
+  const room = allRooms.find(r => r.no === roomNo);
+  if (!room || room.status === newStatus) return;
+
+  const spinner = document.getElementById('saving-' + roomNo);
+  spinner.style.display = 'block';
+
+  fetch(GAS_URL, {
+    method: 'POST',
+    body: JSON.stringify({ type: 'updateRoom', roomNo, status: newStatus })
+  })
+  .then(r => r.json())
+  .then(() => {
+    room.status = newStatus;
+    spinner.style.display = 'none';
+    renderAdminRoomList();
+    renderRooms(allRooms);
+    showToast('✅ บันทึกสถานะห้อง ' + roomNo + ' แล้ว');
+  })
+  .catch(() => {
+    spinner.style.display = 'none';
+    showToast('❌ บันทึกไม่สำเร็จ — ต้องอัพเดท GAS ก่อน');
+  });
 }
 </script>
 </body>
