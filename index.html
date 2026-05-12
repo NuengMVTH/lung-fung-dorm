@@ -259,6 +259,17 @@
     .s-btn.active-occupied  { background: #fee2e2; color: #b91c1c; border-color: #fca5a5; }
     .s-btn.active-reserved  { background: #fef3c7; color: #b45309; border-color: #fcd34d; }
     .admin-saving { font-size: .78rem; color: var(--text-light); white-space: nowrap; }
+    .admin-tabs { display: flex; gap: .4rem; margin-bottom: 1.25rem; border-bottom: 2px solid var(--beige-dark); padding-bottom: .5rem; }
+    .admin-tab { padding: .4rem 1rem; border-radius: 8px 8px 0 0; border: none; background: var(--beige-dark); color: var(--text-light); font-family: inherit; font-size: .88rem; font-weight: 600; cursor: pointer; transition: all .15s; }
+    .admin-tab.active { background: var(--green); color: var(--white); }
+    .an-list { display: flex; flex-direction: column; gap: .6rem; margin-top: 1.25rem; }
+    .an-item { background: var(--beige); border-radius: 10px; padding: .75rem 1rem; border: 1px solid var(--beige-dark); display: flex; justify-content: space-between; align-items: flex-start; gap: .75rem; }
+    .an-item-body { flex: 1; }
+    .an-item-type { font-size: .75rem; font-weight: 700; margin-bottom: .2rem; }
+    .an-item-title { font-size: .9rem; font-weight: 600; color: var(--text); }
+    .an-item-meta { font-size: .78rem; color: var(--text-light); margin-top: .2rem; }
+    .btn-del { background: #fee2e2; color: #b91c1c; border: none; border-radius: 8px; padding: .25rem .65rem; font-size: .78rem; font-weight: 600; cursor: pointer; font-family: inherit; white-space: nowrap; transition: background .15s; }
+    .btn-del:hover { background: #fca5a5; }
 
     /* ── LINE floating btn ── */
     .line-float { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 500; background: #06C755; color: #fff; width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; box-shadow: 0 4px 16px rgba(6,199,85,.4); text-decoration: none; transition: transform .2s; }
@@ -691,11 +702,59 @@
 
   <div id="adminPanel" style="display:none">
     <div class="admin-panel-wrap">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem;">
-        <div style="font-size:.85rem;color:var(--text-light)">กดปุ่มสถานะเพื่อเปลี่ยนและบันทึกทันที</div>
-        <button class="btn btn-outline" onclick="loadAdminRooms()" style="font-size:.82rem;padding:.38rem .9rem">↺ โหลดใหม่</button>
+      <div class="admin-tabs">
+        <button class="admin-tab active" onclick="switchAdminTab('rooms',this)">🏠 สถานะห้อง</button>
+        <button class="admin-tab" onclick="switchAdminTab('announce',this)">📢 ข่าวสาร</button>
       </div>
-      <div id="adminRoomList" style="display:flex;flex-direction:column;gap:.55rem;"></div>
+
+      <!-- แท็บ: สถานะห้อง -->
+      <div id="adminTabRooms">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:.5rem;">
+          <div style="font-size:.85rem;color:var(--text-light)">กดปุ่มสถานะเพื่อเปลี่ยนและบันทึกทันที</div>
+          <button class="btn btn-outline" onclick="loadAdminRooms()" style="font-size:.82rem;padding:.38rem .9rem">↺ โหลดใหม่</button>
+        </div>
+        <div id="adminRoomList" style="display:flex;flex-direction:column;gap:.55rem;"></div>
+      </div>
+
+      <!-- แท็บ: ข่าวสาร -->
+      <div id="adminTabAnnounce" style="display:none">
+        <div class="form-card" style="margin-bottom:1.25rem">
+          <h3 style="font-size:1rem;font-weight:700;color:var(--green-dark);margin-bottom:1rem">📢 โพสข่าวสารใหม่</h3>
+          <div class="form-group">
+            <label>ประเภท</label>
+            <select id="anType">
+              <option value="room">🏠 ค่าห้อง</option>
+              <option value="water">💧 ค่าน้ำ</option>
+              <option value="electric">⚡ ค่าไฟ</option>
+              <option value="news">📢 ข่าวสาร / ประกาศ</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>หัวข้อ <span>*</span></label>
+            <input type="text" id="anTitle" placeholder="เช่น แจ้งอ่านมิเตอร์น้ำ — มิถุนายน 2569" />
+          </div>
+          <div class="form-group">
+            <label>รายละเอียด <span>*</span></label>
+            <textarea id="anDesc" placeholder="รายละเอียดประกาศ..."></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>จำนวน / อัตรา</label>
+              <input type="text" id="anAmount" placeholder="เช่น 16 บาท/หน่วย" />
+            </div>
+            <div class="form-group">
+              <label>ครบกำหนด</label>
+              <input type="date" id="anDue" />
+            </div>
+          </div>
+          <button class="btn btn-green btn-full" id="anSubmitBtn" onclick="submitAnnouncement()">📢 โพสข่าวสาร</button>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem;">
+          <div style="font-size:.88rem;font-weight:600;color:var(--green-dark)">ประกาศที่มีอยู่</div>
+          <button class="btn btn-outline" onclick="refreshAnnouncements()" style="font-size:.82rem;padding:.38rem .9rem">↺ โหลดใหม่</button>
+        </div>
+        <div id="adminAnList" class="an-list"></div>
+      </div>
     </div>
   </div>
 </section>
@@ -731,7 +790,7 @@
 ══════════════════════════════════════════════════════ */
 const SHEETS_CONFIG = {
   roomsUrl: 'https://docs.google.com/spreadsheets/d/1DD9haRLEK-fauZWy1-iNFwlCABm0U8xvPaGRdXvxFa8/gviz/tq?tqx=out:csv&sheet=Rooms',
-  announceUrl: '',
+  announceUrl: 'https://docs.google.com/spreadsheets/d/1DD9haRLEK-fauZWy1-iNFwlCABm0U8xvPaGRdXvxFa8/gviz/tq?tqx=out:csv&sheet=Announcements',
   useSheets: true,
 };
 
@@ -950,6 +1009,7 @@ async function loadRoomsFromSheets() {
 
 async function loadAnnouncementsFromSheets() {
   if (!SHEETS_CONFIG.useSheets || !SHEETS_CONFIG.announceUrl) {
+    cachedAnnouncements = defaultAnnouncements;
     renderAnnouncements(defaultAnnouncements);
     return;
   }
@@ -957,12 +1017,14 @@ async function loadAnnouncementsFromSheets() {
     const res = await fetch(SHEETS_CONFIG.announceUrl);
     const csv = await res.text();
     const rows = csv.trim().split('\n').slice(1);
-    const data = rows.map(row => {
+    const data = rows.filter(r => r.trim()).map(row => {
       const [date, type, title, desc, amount, due] = row.split(',').map(s => s.trim().replace(/"/g,''));
       return { date, type, title, desc, amount, due };
     });
-    renderAnnouncements(data);
+    cachedAnnouncements = data.length ? data : defaultAnnouncements;
+    renderAnnouncements(cachedAnnouncements);
   } catch(e) {
+    cachedAnnouncements = defaultAnnouncements;
     renderAnnouncements(defaultAnnouncements);
   }
 }
@@ -1245,6 +1307,76 @@ function renderAdminRoomList() {
         <div class="admin-saving" id="saving-${r.no}" style="display:none">⏳ กำลังบันทึก...</div>
       </div>`;
   }).join('');
+}
+
+function switchAdminTab(tab, btn) {
+  document.querySelectorAll('.admin-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('adminTabRooms').style.display    = tab === 'rooms'    ? 'block' : 'none';
+  document.getElementById('adminTabAnnounce').style.display = tab === 'announce' ? 'block' : 'none';
+  if (tab === 'announce') renderAdminAnList();
+}
+
+let cachedAnnouncements = [];
+
+function refreshAnnouncements() {
+  document.getElementById('adminAnList').innerHTML = '<p style="color:var(--text-light);font-size:.9rem">กำลังโหลด...</p>';
+  loadAnnouncementsFromSheets().then(() => renderAdminAnList());
+}
+
+function renderAdminAnList() {
+  const list = document.getElementById('adminAnList');
+  const data = cachedAnnouncements.length ? cachedAnnouncements : defaultAnnouncements;
+  if (!data.length) { list.innerHTML = '<p style="color:var(--text-light);font-size:.88rem">ยังไม่มีประกาศ</p>'; return; }
+  list.innerHTML = data.map((a, i) => {
+    const tm = typeMap[a.type] || typeMap.news;
+    return `
+      <div class="an-item">
+        <div class="an-item-body">
+          <div class="an-item-type ${tm.cls}">${tm.icon} ${tm.label}</div>
+          <div class="an-item-title">${a.title}</div>
+          <div class="an-item-meta">${a.date}${a.due ? ' · ครบ ' + a.due : ''}${a.amount ? ' · ' + a.amount : ''}</div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function submitAnnouncement() {
+  const title = document.getElementById('anTitle').value.trim();
+  const desc  = document.getElementById('anDesc').value.trim();
+  if (!title || !desc) { showToast('❌ กรุณากรอกหัวข้อและรายละเอียด'); return; }
+
+  const dueRaw = document.getElementById('anDue').value;
+  const due  = dueRaw ? new Date(dueRaw).toLocaleDateString('th-TH', { day:'numeric', month:'short', year:'numeric' }) : '';
+  const date = new Date().toLocaleDateString('th-TH', { day:'numeric', month:'short', year:'numeric' });
+
+  const data = {
+    type: 'addAnnouncement',
+    anType: document.getElementById('anType').value,
+    title, desc,
+    amount: document.getElementById('anAmount').value.trim(),
+    due, date
+  };
+
+  const btn = document.getElementById('anSubmitBtn');
+  const origText = btn.innerHTML;
+  btn.disabled = true; btn.innerHTML = '⏳ กำลังโพส...';
+
+  fetch(GAS_URL, { method: 'POST', body: JSON.stringify(data) })
+    .then(r => r.json())
+    .then(() => {
+      btn.disabled = false; btn.innerHTML = origText;
+      document.getElementById('anTitle').value  = '';
+      document.getElementById('anDesc').value   = '';
+      document.getElementById('anAmount').value = '';
+      document.getElementById('anDue').value    = '';
+      showToast('✅ โพสข่าวสารเรียบร้อย!');
+      refreshAnnouncements();
+    })
+    .catch(() => {
+      btn.disabled = false; btn.innerHTML = origText;
+      showToast('❌ โพสไม่สำเร็จ — ต้องอัพเดท GAS ก่อน');
+    });
 }
 
 function setRoomStatus(roomNo, newStatus) {
