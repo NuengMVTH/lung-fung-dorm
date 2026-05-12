@@ -1017,9 +1017,9 @@ async function loadAnnouncementsFromSheets() {
     const res = await fetch(SHEETS_CONFIG.announceUrl);
     const csv = await res.text();
     const rows = csv.trim().split('\n').slice(1);
-    const data = rows.filter(r => r.trim()).map(row => {
-      const [date, type, title, desc, amount, due] = row.split(',').map(s => s.trim().replace(/"/g,''));
-      return { date, type, title, desc, amount, due };
+    const data = rows.filter(r => r.trim()).map((row, i) => {
+      const [type, title, desc, amount, due, date] = row.split(',').map(s => s.trim().replace(/"/g,''));
+      return { date, type, title, desc, amount, due, _row: i + 2 };
     });
     cachedAnnouncements = data.length ? data : defaultAnnouncements;
     renderAnnouncements(cachedAnnouncements);
@@ -1330,15 +1330,31 @@ function renderAdminAnList() {
   if (!data.length) { list.innerHTML = '<p style="color:var(--text-light);font-size:.88rem">ยังไม่มีประกาศ</p>'; return; }
   list.innerHTML = data.map((a, i) => {
     const tm = typeMap[a.type] || typeMap.news;
+    const hasRow = !!a._row;
     return `
-      <div class="an-item">
-        <div class="an-item-body">
+      <div class="an-item" style="display:flex;align-items:flex-start;gap:.75rem;">
+        <div class="an-item-body" style="flex:1;">
           <div class="an-item-type ${tm.cls}">${tm.icon} ${tm.label}</div>
           <div class="an-item-title">${a.title}</div>
           <div class="an-item-meta">${a.date}${a.due ? ' · ครบ ' + a.due : ''}${a.amount ? ' · ' + a.amount : ''}</div>
         </div>
+        ${hasRow ? `<button onclick="deleteAnnouncement(${a._row}, '${a.title.replace(/'/g,"\\'")}' )" style="flex-shrink:0;background:#fee2e2;color:#b91c1c;border:none;border-radius:8px;padding:.35rem .7rem;font-size:.82rem;cursor:pointer;font-family:inherit;font-weight:600;">🗑 ลบ</button>` : ''}
       </div>`;
   }).join('');
+}
+
+function deleteAnnouncement(rowIndex, title) {
+  if (!confirm('ลบประกาศ "' + title + '" ใช่มั้ย?')) return;
+  fetch(GAS_URL, {
+    method: 'POST',
+    body: JSON.stringify({ type: 'deleteAnnouncement', rowIndex })
+  })
+  .then(r => r.json())
+  .then(() => {
+    showToast('✅ ลบประกาศเรียบร้อย');
+    refreshAnnouncements();
+  })
+  .catch(() => showToast('❌ ลบไม่สำเร็จ — ต้องอัพเดท GAS ก่อน'));
 }
 
 function submitAnnouncement() {
