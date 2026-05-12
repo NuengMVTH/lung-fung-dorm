@@ -1380,8 +1380,9 @@ function submitAnnouncement() {
 
   fetch(GAS_URL, { method: 'POST', body: JSON.stringify(data) })
     .then(r => r.json())
-    .then(() => {
+    .then(result => {
       btn.disabled = false; btn.innerHTML = origText;
+      if (!result.ok) { showToast('❌ GAS error: ' + (result.error || 'unknown')); return; }
       document.getElementById('anTitle').value  = '';
       document.getElementById('anDesc').value   = '';
       document.getElementById('anAmount').value = '';
@@ -1389,9 +1390,9 @@ function submitAnnouncement() {
       showToast('✅ โพสข่าวสารเรียบร้อย!');
       refreshAnnouncements();
     })
-    .catch(() => {
+    .catch(err => {
       btn.disabled = false; btn.innerHTML = origText;
-      showToast('❌ โพสไม่สำเร็จ — ต้องอัพเดท GAS ก่อน');
+      showToast('❌ โพสไม่สำเร็จ: ' + err.message);
     });
 }
 
