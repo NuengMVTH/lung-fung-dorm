@@ -805,11 +805,16 @@
 
   <div id="adminLogin" class="admin-login-wrap">
     <div class="form-card">
-      <div class="form-group">
-        <label>รหัสผ่าน</label>
-        <input type="password" id="adminPinInput" placeholder="ใส่รหัสผ่าน" onkeydown="if(event.key==='Enter')adminLogin()" />
+      <div class="form-card-header">
+        <h3>🔓 เข้าสู่ระบบ</h3>
       </div>
-      <button class="btn btn-green btn-full" onclick="adminLogin()">🔓 เข้าสู่ระบบ</button>
+      <div class="form-card-body">
+        <div class="form-group">
+          <label>รหัสผ่าน</label>
+          <input type="password" id="adminPinInput" placeholder="ใส่รหัสผ่าน" onkeydown="if(event.key==='Enter')adminLogin()" />
+        </div>
+        <button class="btn btn-green btn-full" onclick="adminLogin()">🔓 เข้าสู่ระบบ</button>
+      </div>
     </div>
   </div>
 
