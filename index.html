@@ -259,22 +259,36 @@
     /* ══════════════════════════════
        ROOM TYPE CARDS
     ══════════════════════════════ */
-    .rooms-type-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; padding: 0 1rem 3rem; max-width: 1100px; margin: 0 auto; }
-    .rtype-card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; border: 1px solid var(--beige-dark); transition: transform .2s, box-shadow .2s; }
-    .rtype-card:hover { transform: translateY(-3px); box-shadow: 0 6px 24px rgba(80,60,30,.15); }
-    .rtype-img { height: 180px; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: .5rem; }
-    .rtype-img-fan { background: linear-gradient(160deg, #e8f5e9 0%, #c8e6c9 50%, #fff8e1 100%); }
-    .rtype-img-ac  { background: linear-gradient(160deg, #e3f2fd 0%, #bbdefb 50%, #e1f5fe 100%); }
-    .rtype-icon { font-size: 4.5rem; }
-    .rtype-label { font-size: .95rem; font-weight: 700; }
-    .rtype-body { padding: 1.25rem; }
-    .rtype-name { font-size: 1.1rem; font-weight: 700; color: var(--amber-deep); margin-bottom: .25rem; font-family: 'Kanit', sans-serif; }
-    .rtype-price { font-size: 1.6rem; font-weight: 700; color: var(--amber); font-family: 'Kanit', sans-serif; }
-    .rtype-price small { font-size: .85rem; font-weight: 400; color: var(--text-light); }
-    .cost-rows { margin: .75rem 0; display: flex; flex-direction: column; gap: .35rem; }
-    .cost-row { display: flex; justify-content: space-between; background: var(--beige); border-radius: 8px; padding: .35rem .75rem; font-size: .88rem; }
-    .amenity-tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .75rem; }
-    .amenity-tag { background: var(--amber-pale); color: var(--amber-deep); border: 1px solid rgba(200,115,46,.2); border-radius: 50px; padding: .15rem .6rem; font-size: .78rem; }
+    .rooms-type-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.75rem; padding: 0 1rem 2rem; max-width: 900px; margin: 0 auto; }
+    .rtype-card { background: var(--white); border-radius: 20px; box-shadow: 0 4px 20px rgba(60,25,8,.1); overflow: hidden; border: 1px solid var(--cream-dark); transition: transform .22s, box-shadow .22s; display: flex; flex-direction: column; }
+    .rtype-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-warm); }
+    .rtype-img { height: 200px; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: .6rem; position: relative; overflow: hidden; }
+    .rtype-img-fan { background: linear-gradient(160deg, #5C2008 0%, #C8742E 60%, #F0A86C 100%); }
+    .rtype-img-ac  { background: linear-gradient(160deg, #0C3547 0%, #1565C0 55%, #42A5F5 100%); }
+    .rtype-img::after { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 50% 110%, rgba(255,255,255,.15) 0%, transparent 65%); }
+    .rtype-icon { font-size: 5rem; filter: drop-shadow(0 6px 12px rgba(0,0,0,.25)); position: relative; z-index: 1; }
+    .rtype-label { font-size: 1rem; font-weight: 700; color: rgba(255,255,255,.95); font-family: 'Kanit', sans-serif; letter-spacing: .04em; position: relative; z-index: 1; background: rgba(0,0,0,.22); padding: .2rem .9rem; border-radius: 50px; backdrop-filter: blur(4px); }
+    .rtype-body { padding: 1.4rem 1.4rem 0; flex: 1; }
+    .rtype-name { font-size: 1.15rem; font-weight: 700; color: var(--amber-deep); margin-bottom: .1rem; font-family: 'Kanit', sans-serif; }
+    .rtype-size { font-size: .8rem; color: var(--text-light); margin-bottom: .75rem; }
+    .rtype-price-block { background: linear-gradient(135deg, var(--amber-pale), #fff8f0); border-radius: 12px; padding: .75rem 1rem; border-left: 4px solid var(--amber); margin-bottom: .9rem; }
+    .rtype-price-block-ac { background: linear-gradient(135deg, #EEF5FF, #F0F6FF); border-left-color: #1565C0; }
+    .rtype-price { font-size: 1.7rem; font-weight: 800; color: var(--amber); font-family: 'Kanit', sans-serif; line-height: 1.1; }
+    .rtype-price-ac { color: #1565C0; }
+    .rtype-price small { font-size: .8rem; font-weight: 400; color: var(--text-light); font-family: 'Sarabun', sans-serif; }
+    .cost-rows { display: flex; flex-direction: column; gap: .35rem; margin-bottom: .9rem; }
+    .cost-row { display: flex; justify-content: space-between; background: var(--cream); border-radius: 8px; padding: .4rem .75rem; font-size: .87rem; border: 1px solid var(--cream-dark); }
+    .cost-row.highlight { background: var(--amber-pale); border-color: var(--amber-light); }
+    .amenity-tags { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: 1rem; }
+    .amenity-tag { background: var(--amber-pale); color: var(--amber-deep); border: 1px solid rgba(200,115,46,.2); border-radius: 50px; padding: .18rem .65rem; font-size: .78rem; font-weight: 500; }
+    .rtype-cta { padding: 0 1.4rem 1.4rem; }
+    .rtype-btn { display: block; width: 100%; padding: .75rem; border-radius: 12px; text-align: center; font-family: 'Kanit', sans-serif; font-size: .95rem; font-weight: 700; letter-spacing: .03em; border: none; cursor: pointer; color: #fff; transition: opacity .15s, transform .15s; }
+    .rtype-btn-fan { background: linear-gradient(135deg, var(--amber), var(--amber-deep)); }
+    .rtype-btn-ac  { background: linear-gradient(135deg, #1565C0, #0C3547); }
+    .rtype-btn:hover { opacity: .9; transform: translateY(-1px); }
+    .cost-summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 1.25rem; max-width: 900px; margin: 0 auto; padding: 0 1rem 3rem; }
+    .cost-summary-card { background: var(--white); border-radius: 16px; box-shadow: var(--shadow); padding: 1.5rem; border: 1px solid var(--cream-dark); }
+    .cost-summary-title { font-size: 1rem; font-weight: 700; color: var(--amber-deep); margin-bottom: 1rem; font-family: 'Kanit', sans-serif; }
 
     /* ── Forms ── */
     .form-section { max-width: 660px; margin: 0 auto; padding: 0 1rem 3rem; }
@@ -562,70 +576,76 @@
     <div class="rtype-card">
       <div class="rtype-img rtype-img-fan">
         <div class="rtype-icon">🌀</div>
-        <div class="rtype-label" style="color:var(--green-dark)">ห้องพัดลม</div>
+        <div class="rtype-label">ห้องพัดลม</div>
       </div>
       <div class="rtype-body">
         <div class="rtype-name">ห้องพักพัดลม (Standard)</div>
-        <div class="rtype-price">2,800 – 3,200 <small>บาท / เดือน</small></div>
-        <div style="font-size:.8rem;color:var(--text-light);margin-top:.2rem">ขนาด 24–28 ตร.ม. | โซนด้านซ้าย</div>
+        <div class="rtype-size">📐 ขนาด 24–28 ตร.ม. · โซนด้านซ้าย</div>
+        <div class="rtype-price-block">
+          <div class="rtype-price">2,800 – 3,200 <small>บาท / เดือน</small></div>
+        </div>
         <div class="cost-rows">
-          <div class="cost-row"><span style="color:var(--text-light)">💧 ค่าน้ำ</span><span style="font-weight:600">16 บาท/หน่วย</span></div>
-          <div class="cost-row"><span style="color:var(--text-light)">⚡ ค่าไฟ</span><span style="font-weight:600">8 บาท/หน่วย</span></div>
-          <div class="cost-row"><span style="color:var(--text-light)">🌐 Wi-Fi</span><span style="font-weight:600">รวมในค่าเช่า</span></div>
-          <div class="cost-row"><span style="color:var(--text-light)">🚗 ที่จอดรถ</span><span style="font-weight:600">200 บาท/เดือน</span></div>
+          <div class="cost-row"><span>💧 ค่าน้ำ</span><span>16 บาท/หน่วย</span></div>
+          <div class="cost-row"><span>⚡ ค่าไฟ</span><span>8 บาท/หน่วย</span></div>
+          <div class="cost-row"><span>🌐 Wi-Fi</span><span>รวมในค่าเช่า</span></div>
+          <div class="cost-row"><span>🚗 ที่จอดรถ</span><span>200 บาท/เดือน</span></div>
         </div>
         <div class="amenity-tags">
           <span class="amenity-tag">🛋️ เตียง</span><span class="amenity-tag">🪑 โต๊ะเก้าอี้</span>
           <span class="amenity-tag">🚿 ห้องน้ำในตัว</span><span class="amenity-tag">🌀 พัดลม 2 ตัว</span>
           <span class="amenity-tag">🔒 กุญแจนิรภัย</span>
         </div>
-        <button class="btn btn-green btn-full mt-2" onclick="showPage('booking')">📅 นัดชมห้องนี้</button>
+      </div>
+      <div class="rtype-cta">
+        <button class="rtype-btn rtype-btn-fan" onclick="showPage('booking')">📅 นัดชมห้องนี้</button>
       </div>
     </div>
 
     <div class="rtype-card">
       <div class="rtype-img rtype-img-ac">
         <div class="rtype-icon">❄️</div>
-        <div class="rtype-label" style="color:#1565c0">ห้องแอร์</div>
+        <div class="rtype-label">ห้องแอร์</div>
       </div>
       <div class="rtype-body">
         <div class="rtype-name">ห้องพักแอร์ (Premium)</div>
-        <div class="rtype-price">4,200 – 4,800 <small>บาท / เดือน</small></div>
-        <div style="font-size:.8rem;color:var(--text-light);margin-top:.2rem">ขนาด 28–35 ตร.ม. | ทั้งสองโซน</div>
+        <div class="rtype-size">📐 ขนาด 28–35 ตร.ม. · ทั้งสองโซน</div>
+        <div class="rtype-price-block rtype-price-block-ac">
+          <div class="rtype-price rtype-price-ac">4,200 – 4,800 <small>บาท / เดือน</small></div>
+        </div>
         <div class="cost-rows">
-          <div class="cost-row"><span style="color:var(--text-light)">💧 ค่าน้ำ</span><span style="font-weight:600">16 บาท/หน่วย</span></div>
-          <div class="cost-row"><span style="color:var(--text-light)">⚡ ค่าไฟ</span><span style="font-weight:600">8 บาท/หน่วย</span></div>
-          <div class="cost-row"><span style="color:var(--text-light)">🌐 Wi-Fi</span><span style="font-weight:600">รวมในค่าเช่า</span></div>
-          <div class="cost-row"><span style="color:var(--text-light)">🚗 ที่จอดรถ</span><span style="font-weight:600">200 บาท/เดือน</span></div>
+          <div class="cost-row"><span>💧 ค่าน้ำ</span><span>16 บาท/หน่วย</span></div>
+          <div class="cost-row"><span>⚡ ค่าไฟ</span><span>8 บาท/หน่วย</span></div>
+          <div class="cost-row"><span>🌐 Wi-Fi</span><span>รวมในค่าเช่า</span></div>
+          <div class="cost-row"><span>🚗 ที่จอดรถ</span><span>200 บาท/เดือน</span></div>
         </div>
         <div class="amenity-tags">
           <span class="amenity-tag">🛋️ เตียง</span><span class="amenity-tag">🪑 โต๊ะเก้าอี้</span>
           <span class="amenity-tag">🚿 ห้องน้ำในตัว</span><span class="amenity-tag">❄️ แอร์</span>
           <span class="amenity-tag">🔒 กุญแจนิรภัย</span><span class="amenity-tag">🚪 ระเบียง</span>
         </div>
-        <button class="btn btn-green btn-full mt-2" onclick="showPage('booking')">📅 นัดชมห้องนี้</button>
+      </div>
+      <div class="rtype-cta">
+        <button class="rtype-btn rtype-btn-ac" onclick="showPage('booking')">📅 นัดชมห้องนี้</button>
       </div>
     </div>
   </div>
 
-  <div style="max-width:640px;margin:0 auto 3rem;padding:0 1rem;">
-    <div style="background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:1.5rem;border:1px solid var(--beige-dark);">
-      <h3 style="font-size:1rem;font-weight:700;color:var(--green-dark);margin-bottom:1rem">📋 ค่าใช้จ่ายแรกเข้า</h3>
-      <div style="display:flex;flex-direction:column;gap:.5rem;">
+  <div class="cost-summary-grid">
+    <div class="cost-summary-card">
+      <div class="cost-summary-title">📋 ค่าใช้จ่ายแรกเข้า</div>
+      <div class="cost-rows">
         <div class="cost-row"><span>เงินมัดจำ</span><span style="font-weight:700">2 เดือน</span></div>
         <div class="cost-row"><span>ค่าเช่าล่วงหน้า</span><span style="font-weight:700">1 เดือน</span></div>
-        <div class="cost-row" style="background:var(--green-pale);border:1px solid var(--green-light)"><span>รวม (ห้องพัดลม)</span><span style="font-weight:700;color:var(--brown)">~11,200 บาท</span></div>
-        <div class="cost-row" style="background:var(--green-pale);border:1px solid var(--green-light)"><span>รวม (ห้องแอร์)</span><span style="font-weight:700;color:var(--brown)">~16,800 บาท</span></div>
+        <div class="cost-row highlight"><span>รวม (ห้องพัดลม)</span><span style="font-weight:700;color:var(--amber)">~11,200 บาท</span></div>
+        <div class="cost-row highlight"><span>รวม (ห้องแอร์)</span><span style="font-weight:700;color:var(--amber)">~16,800 บาท</span></div>
       </div>
       <p style="font-size:.8rem;color:var(--text-light);margin-top:.75rem">* เงินมัดจำคืนเมื่อออกห้องตามเงื่อนไข</p>
     </div>
-  </div>
 
-  <div style="max-width:640px;margin:0 auto;padding:0 1rem 3rem;">
-    <div style="background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:1.5rem;border:1px solid var(--beige-dark);">
-      <h3 style="font-size:1rem;font-weight:700;color:var(--green-dark);margin-bottom:1rem">⏰ กำหนดชำระเงิน</h3>
-      <div style="display:flex;flex-direction:column;gap:.5rem;font-size:.9rem;">
-        <div class="cost-row" style="background:var(--green-pale)"><span>📅 ค่าเช่าห้อง</span><span style="font-weight:600">วันที่ 1–5 ของทุกเดือน</span></div>
+    <div class="cost-summary-card">
+      <div class="cost-summary-title">⏰ กำหนดชำระเงิน</div>
+      <div class="cost-rows" style="font-size:.9rem;">
+        <div class="cost-row highlight"><span>📅 ค่าเช่าห้อง</span><span style="font-weight:600">วันที่ 1–5 ของทุกเดือน</span></div>
         <div class="cost-row"><span>💧 ค่าน้ำ</span><span style="font-weight:600">วันที่ 5 ของทุกเดือน</span></div>
         <div class="cost-row"><span>⚡ ค่าไฟ</span><span style="font-weight:600">วันที่ 5 ของทุกเดือน</span></div>
       </div>
