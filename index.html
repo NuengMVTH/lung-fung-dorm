@@ -282,8 +282,8 @@
     .form-card-header { background: linear-gradient(135deg, #5C2008, var(--amber)); padding: 1.25rem 1.5rem; }
     .form-card-header h3 { font-family: 'Kanit', sans-serif; font-size: 1.2rem; font-weight: 700; color: #fff; margin: 0; }
     .form-card-header p { font-size: .85rem; color: rgba(255,255,255,.8); margin-top: .2rem; }
-    .form-card-body { padding: 1.5rem; }
-    .form-group { margin-bottom: 1.1rem; }
+    .form-card-body { padding: 1.75rem 1.5rem 1.5rem; }
+    .form-group { margin-bottom: 1.25rem; }
     label { display: block; font-size: .85rem; font-weight: 600; color: var(--text-light); margin-bottom: .35rem; }
     label span { color: #e53935; }
     input, select, textarea { width: 100%; padding: .65rem .95rem; border: 1.5px solid var(--cream-dark); border-radius: 10px; font-family: inherit; font-size: .95rem; color: var(--text); background: var(--cream); transition: border .2s, box-shadow .2s; }
@@ -714,8 +714,13 @@
     <div class="divider"></div>
   </div>
   <div class="form-section">
-    <div class="form-notice"><strong>🚨 กรณีเร่งด่วน (น้ำท่วม / ไฟดับ / ประตูเสีย)</strong>LINE OA หรือโทรหาลุงฟุ้งโดยตรง</div>
+    <div class="form-notice">🚨 <div><strong>กรณีเร่งด่วน (น้ำท่วม / ไฟดับ / ประตูเสีย)</strong>ติดต่อ LINE OA หรือโทรหาลุงฟุ้งโดยตรง</div></div>
     <div class="form-card">
+      <div class="form-card-header">
+        <h3>🔧 แจ้งซ่อมแซม</h3>
+        <p>ทีมช่างพร้อมดูแล — รับแจ้งทุกวัน</p>
+      </div>
+      <div class="form-card-body">
       <form onsubmit="submitForm(event)" novalidate>
         <div class="form-row">
           <div class="form-group"><label>เลขห้อง <span>*</span></label><input type="text" placeholder="เช่น 201" required /></div>
@@ -725,12 +730,16 @@
         <div class="form-group"><label>ประเภทปัญหา <span>*</span></label>
           <select required>
             <option value="">-- เลือกประเภทปัญหา --</option>
-            <option>🚰 ประปา / น้ำรั่ว / ท่อตัน</option><option>⚡ ไฟฟ้า / เต้าเสียบ / หลอดไฟ</option>
-            <option>❄️ เครื่องปรับอากาศ</option><option>🪟 ประตู / หน้าต่าง / กุญแจ</option>
-            <option>🐛 แมลง / สัตว์รบกวน</option><option>📶 Wi-Fi / อินเทอร์เน็ต</option><option>อื่น ๆ</option>
+            <option>🚰 ประปา / น้ำรั่ว / ท่อตัน</option>
+            <option>⚡ ไฟฟ้า / เต้าเสียบ / หลอดไฟ</option>
+            <option>❄️ เครื่องปรับอากาศ</option>
+            <option>🪟 ประตู / หน้าต่าง / กุญแจ</option>
+            <option>🐛 แมลง / สัตว์รบกวน</option>
+            <option>📶 Wi-Fi / อินเทอร์เน็ต</option>
+            <option>อื่น ๆ</option>
           </select>
         </div>
-        <div class="form-group"><label>รายละเอียดปัญหา <span>*</span></label><textarea placeholder="อธิบายปัญหาให้ละเอียด..." required></textarea></div>
+        <div class="form-group"><label>รายละเอียดปัญหา <span>*</span></label><textarea placeholder="อธิบายปัญหาให้ละเอียด เช่น อาการ ตำแหน่ง ความเร่งด่วน..." required style="min-height:120px"></textarea></div>
         <div class="form-group"><label>แนบรูปภาพ (ถ้ามี)</label>
           <div class="file-input-wrap" onclick="document.getElementById('fileInput').click()">
             <input type="file" id="fileInput" accept="image/*" multiple onchange="updateFileLabel(this)" />
@@ -738,11 +747,9 @@
             <span class="file-label" id="fileLabel"><strong>คลิกเพื่อเลือกรูป</strong> หรือลากมาวางที่นี่<br>JPG, PNG ขนาดไม่เกิน 5MB</span>
           </div>
         </div>
-        <div class="form-group"><label>ความเร่งด่วน</label>
-          <select><option>🟢 ปกติ — รอได้ 1-3 วัน</option><option>🟡 ปานกลาง — ภายใน 24 ชม.</option><option>🔴 เร่งด่วน — ต้องการวันนี้</option></select>
-        </div>
-        <button type="button" class="btn btn-brown btn-full btn-lg" onclick="submitForm({preventDefault:()=>{},target:this.closest('form')})">🔧 ส่งคำขอซ่อม</button>
+        <button type="button" class="btn btn-brown btn-full btn-lg" style="margin-top:.5rem" onclick="submitForm({preventDefault:()=>{},target:this.closest('form')})">🔧 ส่งคำขอซ่อม</button>
       </form>
+      </div>
     </div>
   </div>
 </section>
