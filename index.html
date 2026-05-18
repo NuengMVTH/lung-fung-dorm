@@ -508,7 +508,7 @@
     <div class="reveal" style="background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:1.5rem;border-left:4px solid var(--gold);">
       <div style="font-size:1.5rem;margin-bottom:.4rem">💰</div>
       <h3 style="font-size:1rem;color:var(--amber-deep);margin-bottom:.3rem;font-family:'Kanit',sans-serif">ราคา</h3>
-      <p style="font-size:.88rem;color:var(--text-light)">ห้องธรรมดา <strong style="color:var(--amber)">2,800–3,200 บาท/เดือน</strong></p>
+      <p style="font-size:.88rem;color:var(--text-light)">ห้องธรรมดา <strong style="color:var(--amber)">2,000 บาท/เดือน</strong></p>
     </div>
     <div class="reveal" style="background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:1.5rem;border-left:4px solid var(--amber);">
       <div style="font-size:1.5rem;margin-bottom:.4rem">⏰</div>
@@ -518,7 +518,7 @@
     <div class="reveal" style="background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);padding:1.5rem;border-left:4px solid var(--gold);">
       <div style="font-size:1.5rem;margin-bottom:.4rem">🤝</div>
       <h3 style="font-size:1rem;color:var(--amber-deep);margin-bottom:.3rem;font-family:'Kanit',sans-serif">สัญญาเช่า</h3>
-      <p style="font-size:.88rem;color:var(--text-light)">สัญญาขั้นต่ำ 3 เดือน<br>มัดจำ 2 เดือน + ค่าเช่า 1 เดือน</p>
+      <p style="font-size:.88rem;color:var(--text-light)">สัญญาขั้นต่ำ 3 เดือน<br>มัดจำ 1 เดือน + ค่าเช่า 1 เดือน</p>
     </div>
   </div>
 
@@ -582,7 +582,7 @@
         <div class="rtype-name">ห้องพักธรรมดา (Standard)</div>
         <div class="rtype-size">📐 ขนาด 24–28 ตร.ม. · โซนด้านซ้าย</div>
         <div class="rtype-price-block">
-          <div class="rtype-price">2,800 – 3,200 <small>บาท / เดือน</small></div>
+          <div class="rtype-price">2,000 <small>บาท / เดือน</small></div>
         </div>
         <div class="cost-rows">
           <div class="cost-row"><span>💧 ค่าน้ำ</span><span>16 บาท/หน่วย</span></div>
@@ -606,9 +606,9 @@
     <div class="cost-summary-card">
       <div class="cost-summary-title">📋 ค่าใช้จ่ายแรกเข้า</div>
       <div class="cost-rows">
-        <div class="cost-row"><span>เงินมัดจำ</span><span style="font-weight:700">2 เดือน</span></div>
+        <div class="cost-row"><span>เงินมัดจำ</span><span style="font-weight:700">1 เดือน</span></div>
         <div class="cost-row"><span>ค่าเช่าล่วงหน้า</span><span style="font-weight:700">1 เดือน</span></div>
-        <div class="cost-row highlight"><span>รวมทั้งหมด</span><span style="font-weight:700;color:var(--amber)">~11,200 บาท</span></div>
+        <div class="cost-row highlight"><span>รวมทั้งหมด</span><span style="font-weight:700;color:var(--amber)">~4,000 บาท</span></div>
       </div>
       <p style="font-size:.8rem;color:var(--text-light);margin-top:.75rem">* เงินมัดจำคืนเมื่อออกห้องตามเงื่อนไข</p>
     </div>
@@ -918,20 +918,20 @@ const SHEETS_CONFIG = {
 
 /* ══ ข้อมูลห้อง 14 ห้อง (Default — แก้ได้ หรือใช้ Google Sheets) ══ */
 const defaultRooms = [
-  { no:'1',  zone:'left',  type:'fan', status:'occupied',  price:2800, note:'ติดทางเข้า' },
-  { no:'2',  zone:'left',  type:'fan', status:'available', price:2800, note:'ติดลาน' },
-  { no:'3',  zone:'left',  type:'fan', status:'occupied',  price:3000, note:'ห้องมุม' },
-  { no:'4',  zone:'left',  type:'fan', status:'available', price:3000, note:'' },
-  { no:'5',  zone:'left',  type:'ac',  status:'occupied',  price:4200, note:'' },
-  { no:'6',  zone:'left',  type:'ac',  status:'occupied',  price:4200, note:'' },
-  { no:'7',  zone:'left',  type:'ac',  status:'available', price:4500, note:'ห้องมุม' },
-  { no:'8',  zone:'right', type:'ac',  status:'reserved',  price:4200, note:'จอง พ.ค.' },
-  { no:'9',  zone:'right', type:'fan', status:'occupied',  price:3200, note:'' },
-  { no:'10', zone:'right', type:'ac',  status:'available', price:4800, note:'' },
-  { no:'11', zone:'right', type:'fan', status:'occupied',  price:3000, note:'' },
-  { no:'12', zone:'right', type:'ac',  status:'available', price:4800, note:'' },
-  { no:'13', zone:'right', type:'ac',  status:'occupied',  price:4200, note:'' },
-  { no:'14', zone:'right', type:'ac',  status:'available', price:4800, note:'' },
+  { no:'1',  zone:'left',  type:'fan', status:'occupied',  price:2000, note:'ติดทางเข้า' },
+  { no:'2',  zone:'left',  type:'fan', status:'available', price:2000, note:'ติดลาน' },
+  { no:'3',  zone:'left',  type:'fan', status:'occupied',  price:2000, note:'ห้องมุม' },
+  { no:'4',  zone:'left',  type:'fan', status:'available', price:2000, note:'' },
+  { no:'5',  zone:'left',  type:'fan', status:'occupied',  price:2000, note:'' },
+  { no:'6',  zone:'left',  type:'fan', status:'occupied',  price:2000, note:'' },
+  { no:'7',  zone:'left',  type:'fan', status:'available', price:2000, note:'ห้องมุม' },
+  { no:'8',  zone:'right', type:'fan', status:'reserved',  price:2000, note:'จอง พ.ค.' },
+  { no:'9',  zone:'right', type:'fan', status:'occupied',  price:2000, note:'' },
+  { no:'10', zone:'right', type:'fan', status:'available', price:2000, note:'' },
+  { no:'11', zone:'right', type:'fan', status:'occupied',  price:2000, note:'' },
+  { no:'12', zone:'right', type:'fan', status:'available', price:2000, note:'' },
+  { no:'13', zone:'right', type:'fan', status:'occupied',  price:2000, note:'' },
+  { no:'14', zone:'right', type:'fan', status:'available', price:2000, note:'' },
 ];
 
 /* ══ ประกาศ (Default) ══ */
@@ -1088,7 +1088,7 @@ function openLightbox(roomNo) {
     <div class="info-row"><span class="label">💧 ค่าน้ำ</span><span class="val">16 บาท/หน่วย</span></div>
     <div class="info-row"><span class="label">⚡ ค่าไฟ</span><span class="val">8 บาท/หน่วย</span></div>
     <div class="info-row"><span class="label">📋 สัญญาขั้นต่ำ</span><span class="val">3 เดือน</span></div>
-    <div class="info-row"><span class="label">🏦 มัดจำ</span><span class="val">2 เดือน + ล่วงหน้า 1 เดือน</span></div>
+    <div class="info-row"><span class="label">🏦 มัดจำ</span><span class="val">1 เดือน + ล่วงหน้า 1 เดือน</span></div>
     <div class="info-row"><span class="label">สถานะ</span><span class="val">${s}</span></div>
     ${r.note ? `<div class="info-row"><span class="label">หมายเหตุ</span><span class="val">${r.note}</span></div>` : ''}`;
 
