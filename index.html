@@ -79,6 +79,10 @@
     .hero-tagline { display: inline-block; background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.3); border-radius: 50px; padding: .3rem 1rem; font-size: .88rem; margin-bottom: 2rem; }
     .hero-btns { display: flex; flex-wrap: wrap; gap: .75rem; justify-content: center; }
     .hero-btns .btn { box-shadow: 0 3px 12px rgba(0,0,0,.2); }
+    .hero-stats { display: flex; flex-wrap: wrap; gap: .5rem; justify-content: center; margin-bottom: 1.75rem; animation: fadeUp .7s .4s ease both; }
+    .hero-stat { background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.25); border-radius: 50px; padding: .3rem 1rem; font-size: .88rem; font-weight: 600; color: #fff; backdrop-filter: blur(6px); display: flex; align-items: center; gap: .35rem; }
+    .hero-stat-num { font-family: 'Kanit', sans-serif; font-size: 1rem; font-weight: 800; }
+    .hero-stat.stat-avail { background: rgba(34,197,94,.2); border-color: rgba(34,197,94,.4); }
 
     /* ── Section headers ── */
     .section-head { text-align: center; padding: 3rem 1rem 1.5rem; }
@@ -174,31 +178,59 @@
     .sheets-badge { display: inline-flex; align-items: center; gap: .35rem; font-size: .75rem; color: var(--text-light); background: var(--beige-dark); border-radius: 50px; padding: .2rem .65rem; }
 
     /* ══════════════════════════════
-       LIGHTBOX MODAL
+       LIGHTBOX MODAL — redesigned
     ══════════════════════════════ */
     .lightbox-overlay {
       display: none; position: fixed; inset: 0; z-index: 1000;
-      background: rgba(0,0,0,.85); align-items: center; justify-content: center; padding: 1rem;
+      background: rgba(20,8,2,.88); align-items: center; justify-content: center; padding: 1rem;
+      backdrop-filter: blur(4px);
     }
     .lightbox-overlay.open { display: flex; }
+    @keyframes lbIn { from { opacity:0; transform:scale(.93) translateY(12px); } to { opacity:1; transform:scale(1) translateY(0); } }
     .lightbox-box {
-      background: var(--white); border-radius: 16px; max-width: 640px; width: 100%;
-      max-height: 90vh; overflow-y: auto; overflow-x: hidden; padding: 1.25rem;
-      position: relative; animation: lbIn .2s ease; box-sizing: border-box;
+      background: var(--white); border-radius: 20px; max-width: 660px; width: 100%;
+      max-height: 90vh; overflow-y: auto; overflow-x: hidden;
+      position: relative; animation: lbIn .25s cubic-bezier(.34,1.2,.64,1); box-sizing: border-box;
     }
-    @keyframes lbIn { from { opacity: 0; transform: scale(.94); } to { opacity: 1; transform: scale(1); } }
-    .lightbox-close { position: absolute; top: .75rem; right: .75rem; background: var(--beige-dark); border: none; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; }
-    .lightbox-title { font-size: 1.25rem; font-weight: 700; color: var(--green-dark); margin-bottom: 1rem; padding-right: 2rem; }
-    .lightbox-photos { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
-    .lightbox-photo { border-radius: 8px; overflow: hidden; aspect-ratio: 4/3; }
+    /* Header zone */
+    .lightbox-header {
+      background: linear-gradient(135deg, #5C2008, var(--amber));
+      padding: 1.25rem 1.25rem 1rem; position: relative; border-radius: 18px 18px 0 0;
+    }
+    .lightbox-close {
+      position: absolute; top: .9rem; right: .9rem;
+      background: rgba(255,255,255,.2); border: none; border-radius: 50%;
+      width: 32px; height: 32px; cursor: pointer; font-size: 1rem;
+      display: flex; align-items: center; justify-content: center; color: #fff;
+      transition: background .15s;
+    }
+    .lightbox-close:hover { background: rgba(255,255,255,.35); }
+    .lightbox-title { font-size: 1.5rem; font-weight: 800; color: #fff; font-family: 'Kanit', sans-serif; padding-right: 2.5rem; margin-bottom: .2rem; }
+    .lightbox-subtitle { font-size: .85rem; color: rgba(255,255,255,.8); }
+
+    /* Body */
+    .lightbox-body { padding: 1.25rem; }
+    .lightbox-photos { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; margin-bottom: 1.1rem; }
+    .lightbox-photo { border-radius: 12px; overflow: hidden; aspect-ratio: 4/3; }
     .photo-mockup { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .4rem; }
-    .photo-mockup span { font-size: 2.5rem; }
-    .photo-mockup p { font-size: .75rem; font-weight: 600; color: rgba(255,255,255,.9); }
-    .lightbox-info { margin-top: 1.25rem; display: flex; flex-direction: column; gap: .5rem; }
-    .info-row { display: flex; justify-content: space-between; padding: .45rem .75rem; background: var(--beige); border-radius: 8px; font-size: .88rem; }
-    .info-row .label { color: var(--text-light); }
-    .info-row .val { font-weight: 600; }
-    .lightbox-cta { margin-top: 1rem; display: flex; gap: .75rem; flex-wrap: wrap; }
+    .photo-mockup span { font-size: 2.8rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,.2)); }
+    .photo-mockup p { font-size: .75rem; font-weight: 600; color: rgba(255,255,255,.95); background: rgba(0,0,0,.25); padding: .15rem .5rem; border-radius: 50px; }
+
+    /* Info rows */
+    .lightbox-info { display: flex; flex-direction: column; gap: .4rem; margin-bottom: 1rem; }
+    .info-row { display: flex; justify-content: space-between; align-items: center; padding: .5rem .85rem; background: var(--cream); border-radius: 10px; font-size: .88rem; border: 1px solid var(--cream-dark); }
+    .info-row .label { color: var(--text-light); display: flex; align-items: center; gap: .4rem; }
+    .info-row .val { font-weight: 700; color: var(--text); }
+    .info-row.highlight { background: var(--amber-pale); border-color: rgba(200,115,46,.25); }
+    .info-row.highlight .val { color: var(--amber); font-size: 1.1rem; }
+
+    /* Amenity chips in lightbox */
+    .lb-amenities { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: 1rem; }
+    .lb-amenity { background: var(--cream-dark); border-radius: 8px; padding: .3rem .7rem; font-size: .8rem; color: var(--text-light); font-weight: 500; }
+
+    /* CTA */
+    .lightbox-cta { display: flex; gap: .75rem; flex-wrap: wrap; }
+    .lightbox-cta .btn { flex: 1; justify-content: center; min-width: 140px; }
 
     /* ══════════════════════════════
        ANNOUNCEMENTS
@@ -245,23 +277,28 @@
     .amenity-tag { background: var(--amber-pale); color: var(--amber-deep); border: 1px solid rgba(200,115,46,.2); border-radius: 50px; padding: .15rem .6rem; font-size: .78rem; }
 
     /* ── Forms ── */
-    .form-section { max-width: 640px; margin: 0 auto; padding: 0 1rem 3rem; }
-    .form-card { background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); padding: 1.75rem; border: 1px solid var(--beige-dark); }
+    .form-section { max-width: 660px; margin: 0 auto; padding: 0 1rem 3rem; }
+    .form-card { background: var(--white); border-radius: 18px; box-shadow: 0 4px 24px rgba(60,25,8,.1); padding: 0; border: 1px solid var(--cream-dark); overflow: hidden; }
+    .form-card-header { background: linear-gradient(135deg, #5C2008, var(--amber)); padding: 1.25rem 1.5rem; }
+    .form-card-header h3 { font-family: 'Kanit', sans-serif; font-size: 1.2rem; font-weight: 700; color: #fff; margin: 0; }
+    .form-card-header p { font-size: .85rem; color: rgba(255,255,255,.8); margin-top: .2rem; }
+    .form-card-body { padding: 1.5rem; }
     .form-group { margin-bottom: 1.1rem; }
-    label { display: block; font-size: .88rem; font-weight: 600; color: var(--text-light); margin-bottom: .35rem; }
+    label { display: block; font-size: .85rem; font-weight: 600; color: var(--text-light); margin-bottom: .35rem; }
     label span { color: #e53935; }
-    input, select, textarea { width: 100%; padding: .65rem .9rem; border: 1.5px solid #d9cfc3; border-radius: 8px; font-family: inherit; font-size: .95rem; color: var(--text); background: var(--beige); transition: border .2s, box-shadow .2s; }
-    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--amber); box-shadow: 0 0 0 3px rgba(200,115,46,.15); }
+    input, select, textarea { width: 100%; padding: .65rem .95rem; border: 1.5px solid var(--cream-dark); border-radius: 10px; font-family: inherit; font-size: .95rem; color: var(--text); background: var(--cream); transition: border .2s, box-shadow .2s; }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--amber); box-shadow: 0 0 0 3px rgba(200,115,46,.15); background: #fff; }
     textarea { resize: vertical; min-height: 100px; }
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-    .form-notice { background: var(--amber-pale); border: 1px solid rgba(200,115,46,.25); border-radius: 8px; padding: .75rem 1rem; font-size: .85rem; color: var(--amber-deep); margin-bottom: 1.25rem; }
+    .form-notice { background: var(--amber-pale); border: 1px solid rgba(200,115,46,.25); border-radius: 10px; padding: .85rem 1rem; font-size: .85rem; color: var(--amber-deep); margin-bottom: 1.25rem; display: flex; gap: .5rem; align-items: flex-start; }
     .form-notice strong { display: block; margin-bottom: .2rem; }
     @media (max-width: 440px) { .form-row { grid-template-columns: 1fr; } }
-    .file-input-wrap { border: 2px dashed #c9c0b0; border-radius: 8px; padding: 1.5rem; text-align: center; background: var(--beige); cursor: pointer; }
+    .file-input-wrap { border: 2px dashed rgba(200,115,46,.3); border-radius: 10px; padding: 1.5rem; text-align: center; background: var(--amber-pale); cursor: pointer; transition: border-color .2s; }
+    .file-input-wrap:hover { border-color: var(--amber); }
     .file-input-wrap input[type=file] { display: none; }
     .file-icon { font-size: 2rem; display: block; margin-bottom: .4rem; }
     .file-label { font-size: .88rem; color: var(--text-light); }
-    .file-label strong { color: var(--green-dark); }
+    .file-label strong { color: var(--amber-deep); }
 
     /* ── Contact ── */
     .contact-grid { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; padding: 0 1rem 2rem; }
@@ -353,13 +390,19 @@
 ══════════════════════════════ -->
 <div class="lightbox-overlay" id="lightbox" onclick="closeLightbox(event)">
   <div class="lightbox-box" id="lightboxBox">
-    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
-    <div class="lightbox-title" id="lbTitle">ห้อง 101</div>
-    <div class="lightbox-photos" id="lbPhotos"></div>
-    <div class="lightbox-info" id="lbInfo"></div>
-    <div class="lightbox-cta">
-      <a href="https://line.me/R/ti/p/@158pickj" class="btn btn-line" target="_blank">💬 สอบถามผ่าน LINE</a>
-      <button class="btn btn-green" onclick="showPage('booking');closeLightbox()">📅 นัดชมห้องนี้</button>
+    <div class="lightbox-header">
+      <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+      <div class="lightbox-title" id="lbTitle">ห้อง 101</div>
+      <div class="lightbox-subtitle" id="lbSubtitle"></div>
+    </div>
+    <div class="lightbox-body">
+      <div class="lightbox-photos" id="lbPhotos"></div>
+      <div class="lb-amenities" id="lbAmenities"></div>
+      <div class="lightbox-info" id="lbInfo"></div>
+      <div class="lightbox-cta">
+        <a href="https://line.me/R/ti/p/@158pickj" class="btn btn-line" target="_blank">💬 สอบถาม LINE</a>
+        <button class="btn btn-green" onclick="showPage('booking');closeLightbox()">📅 นัดชมห้องนี้</button>
+      </div>
     </div>
   </div>
 </div>
@@ -417,7 +460,12 @@
       <div class="hero-logo-circle"><img src="logofung11.png" alt="หอพักลุงฟุ้ง" style="width:100%;height:auto;display:block;"></div>
       <h1>หอพักลุงฟุ้ง</h1>
       <p class="hero-sub">อยู่สบาย ใจดี เหมือนอยู่บ้านลุง</p>
-      <div class="hero-tagline">✨ อบอุ่น ปลอดภัย เหมือนบ้าน — 14 ห้อง</div>
+      <div class="hero-tagline">✨ อบอุ่น ปลอดภัย เหมือนบ้าน</div>
+      <div class="hero-stats" id="heroStats">
+        <div class="hero-stat"><span>🏠</span><span class="hero-stat-num">14</span><span>ห้องทั้งหมด</span></div>
+        <div class="hero-stat stat-avail"><span>✅</span><span class="hero-stat-num" id="heroAvail">—</span><span>ห้องว่าง</span></div>
+        <div class="hero-stat"><span>📍</span><span>ห่างมหาวิทยาลัย 500 ม.</span></div>
+      </div>
       <div class="hero-btns">
         <a href="#" class="btn btn-white btn-lg" onclick="showPage('available');return false;">🔑 ดูห้องว่าง</a>
         <a href="https://line.me/R/ti/p/@158pickj" class="btn btn-line btn-lg" target="_blank">💬 Add LINE OA</a>
@@ -613,8 +661,13 @@
     <div class="divider"></div>
   </div>
   <div class="form-section">
-    <div class="form-notice"><strong>ℹ️ วิธีนัดชม</strong>กรอกข้อมูลด้านล่าง จากนั้นลุงฟุ้งจะติดต่อกลับภายใน 24 ชั่วโมง</div>
+    <div class="form-notice">ℹ️ <div><strong>วิธีนัดชม</strong>กรอกข้อมูลด้านล่าง จากนั้นลุงฟุ้งจะติดต่อกลับภายใน 24 ชั่วโมง</div></div>
     <div class="form-card">
+      <div class="form-card-header">
+        <h3>📅 นัดชมห้องพัก</h3>
+        <p>เปิดให้ชม จ–ศ 09:00–20:00 · ส–อ 09:00–18:00</p>
+      </div>
+      <div class="form-card-body">
       <form onsubmit="submitForm(event)">
         <div class="form-row">
           <div class="form-group"><label>ชื่อ-นามสกุล <span>*</span></label><input type="text" placeholder="เช่น สมชาย ใจดี" required /></div>
@@ -642,6 +695,7 @@
         <div class="form-group"><label>ข้อความเพิ่มเติม</label><textarea placeholder="คำถาม หรือข้อสังเกตพิเศษ..."></textarea></div>
         <button type="button" class="btn btn-green btn-full btn-lg" onclick="submitForm({preventDefault:()=>{},target:this.closest('form')})">📅 ส่งคำขอนัดชม</button>
       </form>
+      </div>
     </div>
     <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1rem;justify-content:center;">
       <a href="https://line.me/R/ti/p/@158pickj" class="btn btn-line" target="_blank">💬 LINE OA</a>
@@ -924,6 +978,8 @@ function renderRooms(rooms) {
   const available = rooms.filter(r => r.status === 'available').length;
   document.getElementById('lastUpdated').textContent =
     `ห้องว่าง ${available} จาก ${rooms.length} ห้อง • อัพเดต ${new Date().toLocaleDateString('th-TH')}`;
+  const heroAvail = document.getElementById('heroAvail');
+  if (heroAvail) heroAvail.textContent = available;
 
   container.innerHTML = zones.map(z => {
     const zoneRooms = rooms.filter(r => r.zone === z.key);
@@ -1007,11 +1063,15 @@ let allRooms = [];
 function openLightbox(roomNo) {
   const r = allRooms.find(x => x.no === roomNo);
   if (!r) return;
-  const t = r.type === 'fan' ? { icon: '🌀', label: 'ห้องพัดลม' } : { icon: '❄️', label: 'ห้องแอร์' };
-  const s = { available: 'ว่าง ✅', occupied: 'ไม่ว่าง 🔴', reserved: 'จองแล้ว 🟡' }[r.status];
+  const isFan = r.type === 'fan';
+  const t = isFan ? { icon: '🌀', label: 'ห้องพัดลม' } : { icon: '❄️', label: 'ห้องแอร์' };
+  const sMap = { available: 'ว่าง ✅', occupied: 'ไม่ว่าง 🔴', reserved: 'จองแล้ว 🟡' };
+  const s = sMap[r.status];
 
-  document.getElementById('lbTitle').textContent = `ห้อง ${r.no} — ${t.label}`;
-  document.getElementById('lbPhotos').innerHTML = roomMockups.map((m, i) => `
+  document.getElementById('lbTitle').textContent = `ห้อง ${r.no}`;
+  document.getElementById('lbSubtitle').textContent = `${t.icon} ${t.label} · ${r.zone === 'left' ? 'โซนด้านซ้าย' : 'โซนด้านขวา'} · ${s}`;
+
+  document.getElementById('lbPhotos').innerHTML = roomMockups.map((m) => `
     <div class="lightbox-photo">
       <div class="photo-mockup" style="background:${m.bg}">
         <span>${m.icon}</span>
@@ -1019,11 +1079,17 @@ function openLightbox(roomNo) {
       </div>
     </div>`).join('');
 
+  document.getElementById('lbAmenities').innerHTML = [
+    '🚿 ห้องน้ำในตัว', isFan ? '🌀 พัดลม 2 ตัว' : '❄️ แอร์', '📶 Wi-Fi รวม',
+    '🔒 กุญแจนิรภัย', '🛋️ เตียง+โต๊ะ', '🚗 ที่จอด 200 บ./เดือน'
+  ].map(a => `<span class="lb-amenity">${a}</span>`).join('');
+
   document.getElementById('lbInfo').innerHTML = `
-    <div class="info-row"><span class="label">เลขห้อง</span><span class="val">ห้อง ${r.no}</span></div>
-    <div class="info-row"><span class="label">โซน</span><span class="val">${r.zone === 'left' ? 'โซนด้านซ้าย' : 'โซนด้านขวา'}</span></div>
-    <div class="info-row"><span class="label">ประเภท</span><span class="val">${t.icon} ${t.label}</span></div>
-    <div class="info-row"><span class="label">ราคา/เดือน</span><span class="val" style="color:var(--brown);font-size:1.1rem">${r.price.toLocaleString()} บาท</span></div>
+    <div class="info-row highlight"><span class="label">💰 ราคา/เดือน</span><span class="val">${r.price.toLocaleString()} บาท</span></div>
+    <div class="info-row"><span class="label">💧 ค่าน้ำ</span><span class="val">16 บาท/หน่วย</span></div>
+    <div class="info-row"><span class="label">⚡ ค่าไฟ</span><span class="val">8 บาท/หน่วย</span></div>
+    <div class="info-row"><span class="label">📋 สัญญาขั้นต่ำ</span><span class="val">3 เดือน</span></div>
+    <div class="info-row"><span class="label">🏦 มัดจำ</span><span class="val">2 เดือน + ล่วงหน้า 1 เดือน</span></div>
     <div class="info-row"><span class="label">สถานะ</span><span class="val">${s}</span></div>
     ${r.note ? `<div class="info-row"><span class="label">หมายเหตุ</span><span class="val">${r.note}</span></div>` : ''}`;
 
