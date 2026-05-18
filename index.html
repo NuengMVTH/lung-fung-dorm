@@ -832,35 +832,39 @@
       <!-- แท็บ: ข่าวสาร -->
       <div id="adminTabAnnounce" style="display:none">
         <div class="form-card" style="margin-bottom:1.25rem">
-          <h3 style="font-size:1rem;font-weight:700;color:var(--green-dark);margin-bottom:1rem">📢 โพสข่าวสารใหม่</h3>
-          <div class="form-group">
-            <label>ประเภท</label>
-            <select id="anType">
-              <option value="room">🏠 ค่าห้อง</option>
-              <option value="water">💧 ค่าน้ำ</option>
-              <option value="electric">⚡ ค่าไฟ</option>
-              <option value="news">📢 ข่าวสาร / ประกาศ</option>
-            </select>
+          <div class="form-card-header">
+            <h3>📢 โพสข่าวสารใหม่</h3>
           </div>
-          <div class="form-group">
-            <label>หัวข้อ <span>*</span></label>
-            <input type="text" id="anTitle" placeholder="เช่น แจ้งอ่านมิเตอร์น้ำ — มิถุนายน 2569" />
-          </div>
-          <div class="form-group">
-            <label>รายละเอียด <span>*</span></label>
-            <textarea id="anDesc" placeholder="รายละเอียดประกาศ..."></textarea>
-          </div>
-          <div class="form-row">
+          <div class="form-card-body">
             <div class="form-group">
-              <label>จำนวน / อัตรา</label>
-              <input type="text" id="anAmount" placeholder="เช่น 16 บาท/หน่วย" />
+              <label>ประเภท</label>
+              <select id="anType">
+                <option value="room">🏠 ค่าห้อง</option>
+                <option value="water">💧 ค่าน้ำ</option>
+                <option value="electric">⚡ ค่าไฟ</option>
+                <option value="news">📢 ข่าวสาร / ประกาศ</option>
+              </select>
             </div>
             <div class="form-group">
-              <label>ครบกำหนด</label>
-              <input type="date" id="anDue" />
+              <label>หัวข้อ <span>*</span></label>
+              <input type="text" id="anTitle" placeholder="เช่น แจ้งอ่านมิเตอร์น้ำ — มิถุนายน 2569" />
             </div>
+            <div class="form-group">
+              <label>รายละเอียด <span>*</span></label>
+              <textarea id="anDesc" placeholder="รายละเอียดประกาศ..."></textarea>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>จำนวน / อัตรา</label>
+                <input type="text" id="anAmount" placeholder="เช่น 16 บาท/หน่วย" />
+              </div>
+              <div class="form-group">
+                <label>ครบกำหนด</label>
+                <input type="date" id="anDue" />
+              </div>
+            </div>
+            <button class="btn btn-green btn-full" id="anSubmitBtn" onclick="submitAnnouncement()">📢 โพสข่าวสาร</button>
           </div>
-          <button class="btn btn-green btn-full" id="anSubmitBtn" onclick="submitAnnouncement()">📢 โพสข่าวสาร</button>
         </div>
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem;">
           <div style="font-size:.88rem;font-weight:600;color:var(--green-dark)">ประกาศที่มีอยู่</div>
