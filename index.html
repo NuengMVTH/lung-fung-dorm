@@ -1012,6 +1012,9 @@ function renderRoomCard(r) {
 
   const imgBg = 'linear-gradient(160deg,#FDF0E4 0%,#F5D5AA 50%,#EEC68A 100%)';
   const imgIcon = '🛋️';
+  const imgContent = r.imageUrls && r.imageUrls.length > 0
+    ? `<img src="${r.imageUrls[0]}" alt="ห้อง ${r.no}" style="width:100%;height:100%;object-fit:cover;display:block;">`
+    : `<div class="room-mockup" style="background:${imgBg}"><div class="room-mockup-icon">${imgIcon}</div><div class="room-mockup-label">ห้องธรรมดา</div></div>`;
 
   const amenities = [
     '🚿 ห้องน้ำในตัว',
@@ -1025,10 +1028,7 @@ function renderRoomCard(r) {
   return `
     <div class="room-card ${s.cls}" onclick="openLightbox('${r.no}')">
       <div class="room-card-img">
-        <div class="room-mockup" style="background:${imgBg}">
-          <div class="room-mockup-icon">${imgIcon}</div>
-          <div class="room-mockup-label">ห้องธรรมดา</div>
-        </div>
+        ${imgContent}
         <div class="room-status-badge ${s.badge}">${s.text}</div>
         <button class="view-photos-btn" onclick="event.stopPropagation();openLightbox('${r.no}')">📷 ดูรูป</button>
       </div>
@@ -1070,13 +1070,19 @@ function openLightbox(roomNo) {
   document.getElementById('lbTitle').textContent = `ห้อง ${r.no}`;
   document.getElementById('lbSubtitle').textContent = `${t.icon} ${t.label} · ${r.zone === 'left' ? 'โซนด้านซ้าย' : 'โซนด้านขวา'} · ${s}`;
 
-  document.getElementById('lbPhotos').innerHTML = roomMockups.map((m) => `
-    <div class="lightbox-photo">
-      <div class="photo-mockup" style="background:${m.bg}">
-        <span>${m.icon}</span>
-        <p>${m.label}</p>
-      </div>
-    </div>`).join('');
+  const photos = r.imageUrls && r.imageUrls.length > 0
+    ? r.imageUrls.map(url => `
+        <div class="lightbox-photo">
+          <img src="${url}" alt="ห้อง ${r.no}" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">
+        </div>`).join('')
+    : roomMockups.map(m => `
+        <div class="lightbox-photo">
+          <div class="photo-mockup" style="background:${m.bg}">
+            <span>${m.icon}</span>
+            <p>${m.label}</p>
+          </div>
+        </div>`).join('');
+  document.getElementById('lbPhotos').innerHTML = photos;
 
   document.getElementById('lbAmenities').innerHTML = [
     '🚿 ห้องน้ำในตัว', '🌀 พัดลม 2 ตัว', '📶 Wi-Fi รวม',
@@ -1149,12 +1155,13 @@ async function loadRoomsFromSheets() {
       const statusRaw = parts[3];
       const price = parts[4];
       const note = parts[5] || '';
+      const imageUrls = parts[6] ? parts[6].split('|').map(u => u.trim()).filter(Boolean) : [];
       const type = typeRaw === 'พัดลม' ? 'fan' : typeRaw === 'แอร์' ? 'ac' : typeRaw;
       const status = statusRaw === 'ว่าง' ? 'available'
                    : statusRaw === 'ไม่ว่าง' ? 'occupied'
                    : statusRaw === 'จองแล้ว' ? 'reserved' : statusRaw;
       const zone = parseInt(no) <= 7 ? 'left' : 'right';
-      return { no, zone, type, status, price: parseInt(price), note };
+      return { no, zone, type, status, price: parseInt(price), note, imageUrls };
     });
     renderRooms(allRooms);
   } catch(e) {
