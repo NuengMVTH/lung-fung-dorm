@@ -1155,7 +1155,11 @@ async function loadRoomsFromSheets() {
       const statusRaw = parts[3];
       const price = parts[4];
       const note = parts[5] || '';
-      const imageUrls = parts[6] ? parts[6].split('|').map(u => u.trim()).filter(Boolean) : [];
+      const imageUrls = parts[6] ? parts[6].split('|').map(u => {
+        const raw = u.trim();
+        const idMatch = raw.match(/[?&]id=([\w-]+)/);
+        return idMatch ? `https://drive.google.com/thumbnail?id=${idMatch[1]}&sz=w800` : raw;
+      }).filter(Boolean) : [];
       const type = typeRaw === 'พัดลม' ? 'fan' : typeRaw === 'แอร์' ? 'ac' : typeRaw;
       const status = statusRaw === 'ว่าง' ? 'available'
                    : statusRaw === 'ไม่ว่าง' ? 'occupied'
