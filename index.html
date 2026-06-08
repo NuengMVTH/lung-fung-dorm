@@ -214,6 +214,20 @@
     .lightbox-photo { border-radius: 12px; overflow: hidden; aspect-ratio: 4/3; }
     .photo-mockup { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .4rem; }
     .photo-mockup span { font-size: 2.8rem; filter: drop-shadow(0 2px 4px rgba(0,0,0,.2)); }
+
+    /* Carousel */
+    .lb-carousel { margin-bottom: 1rem; }
+    .lb-carousel-main { position: relative; border-radius: 14px; overflow: hidden; aspect-ratio: 4/3; background: #111; }
+    .lb-carousel-main img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .lb-carousel-counter { position: absolute; bottom: .6rem; right: .75rem; background: rgba(0,0,0,.55); color: #fff; font-size: .78rem; padding: .2rem .6rem; border-radius: 20px; }
+    .lb-carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,.45); border: none; color: #fff; font-size: 1.3rem; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .15s; }
+    .lb-carousel-btn:hover { background: rgba(0,0,0,.7); }
+    .lb-carousel-btn.prev { left: .5rem; }
+    .lb-carousel-btn.next { right: .5rem; }
+    .lb-thumbnails { display: flex; gap: .4rem; margin-top: .5rem; overflow-x: auto; padding-bottom: .2rem; }
+    .lb-thumb { flex-shrink: 0; width: 60px; height: 45px; border-radius: 7px; overflow: hidden; cursor: pointer; border: 2px solid transparent; transition: border-color .15s; }
+    .lb-thumb.active { border-color: var(--amber); }
+    .lb-thumb img { width: 100%; height: 100%; object-fit: cover; }
     .photo-mockup p { font-size: .75rem; font-weight: 600; color: rgba(255,255,255,.95); background: rgba(0,0,0,.25); padding: .15rem .5rem; border-radius: 50px; }
 
     /* Info rows */
@@ -1070,19 +1084,35 @@ function openLightbox(roomNo) {
   document.getElementById('lbTitle').textContent = `ห้อง ${r.no}`;
   document.getElementById('lbSubtitle').textContent = `${t.icon} ${t.label} · ${r.zone === 'left' ? 'โซนด้านซ้าย' : 'โซนด้านขวา'} · ${s}`;
 
-  const photos = r.imageUrls && r.imageUrls.length > 0
-    ? r.imageUrls.map(url => `
-        <div class="lightbox-photo">
-          <img src="${url}" alt="ห้อง ${r.no}" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">
-        </div>`).join('')
-    : roomMockups.map(m => `
-        <div class="lightbox-photo">
-          <div class="photo-mockup" style="background:${m.bg}">
-            <span>${m.icon}</span>
-            <p>${m.label}</p>
-          </div>
-        </div>`).join('');
-  document.getElementById('lbPhotos').innerHTML = photos;
+  const urls = r.imageUrls && r.imageUrls.length > 0 ? r.imageUrls : [];
+  if (urls.length > 0) {
+    window._lbUrls = urls;
+    window._lbIdx = 0;
+    document.getElementById('lbPhotos').innerHTML = `
+      <div class="lb-carousel">
+        <div class="lb-carousel-main">
+          <img id="lbMainImg" src="${urls[0]}" alt="ห้อง ${r.no}">
+          <span class="lb-carousel-counter" id="lbCounter">1 / ${urls.length}</span>
+          ${urls.length > 1 ? `
+          <button class="lb-carousel-btn prev" onclick="lbNav(-1)">‹</button>
+          <button class="lb-carousel-btn next" onclick="lbNav(1)">›</button>` : ''}
+        </div>
+        ${urls.length > 1 ? `
+        <div class="lb-thumbnails" id="lbThumbs">
+          ${urls.map((u, i) => `
+            <div class="lb-thumb ${i===0?'active':''}" id="lbThumb${i}" onclick="lbGoTo(${i})">
+              <img src="${u}" alt="${i+1}">
+            </div>`).join('')}
+        </div>` : ''}
+      </div>`;
+  } else {
+    document.getElementById('lbPhotos').innerHTML = roomMockups.map(m => `
+      <div class="lightbox-photo">
+        <div class="photo-mockup" style="background:${m.bg}">
+          <span>${m.icon}</span><p>${m.label}</p>
+        </div>
+      </div>`).join('');
+  }
 
   document.getElementById('lbAmenities').innerHTML = [
     '🚿 ห้องน้ำในตัว', '🌀 พัดลม 2 ตัว', '📶 Wi-Fi รวม',
@@ -1100,6 +1130,16 @@ function openLightbox(roomNo) {
 
   document.getElementById('lightbox').classList.add('open');
 }
+
+function lbGoTo(idx) {
+  const urls = window._lbUrls;
+  if (!urls) return;
+  window._lbIdx = (idx + urls.length) % urls.length;
+  document.getElementById('lbMainImg').src = urls[window._lbIdx];
+  document.getElementById('lbCounter').textContent = `${window._lbIdx + 1} / ${urls.length}`;
+  document.querySelectorAll('.lb-thumb').forEach((t, i) => t.classList.toggle('active', i === window._lbIdx));
+}
+function lbNav(dir) { lbGoTo(window._lbIdx + dir); }
 
 function closeLightbox(e) {
   if (!e || e.target === document.getElementById('lightbox')) {
